@@ -105,10 +105,8 @@ class Setnexter extends Component
                 $numbers[] = $x;
             }
         }
-
         return $numbers;
     }
-
 
     public function latestMaps(){
         $latest_maps = ServerHistory::whereBetween('timestamp', [Carbon::now()->startOfDay()->subDays(2)->format('Y-m-d H:i:s'), Carbon::now()->endOfDay()->format('Y-m-d H:i:s')])->get();

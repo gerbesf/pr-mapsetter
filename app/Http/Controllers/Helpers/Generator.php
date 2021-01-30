@@ -15,7 +15,7 @@ trait Generator
         'merville',
         'omaha_beach',
         'reichswald',
-        'brecourtassault'
+        'brecourt_assault',
     ];
 
     protected $Vietnam_maps = [
