@@ -65,7 +65,6 @@ class Setnexter extends Component
 
         $this->loader = true;
 
-        sleep(1);
         $items = array_values(collect($this->avaliable_maps)->filter(function ($item){
             if($item['Avaliable']==true){
                 return $item;
