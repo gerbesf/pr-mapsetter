@@ -30,7 +30,7 @@ class AdminController extends Controller
         $this->populateServers();
         $this->configureServer();
 
-        #dd($this);
+        $slug = strtolower(str_replace(['_','-',' '],'',$this->mapname));
         $getLast = ServerHistory::orderBy('id','desc')->first();
         if( !isset($getLast->id) ){
 
@@ -43,8 +43,12 @@ class AdminController extends Controller
                 'timestamp'=>Carbon::now()
             ];
             ServerHistory::create($payload);
-        }else{
-            if($getLast->mapname != $this->mapname && $getLast->map_mode != str_replace('gpm_','',$this->gametype)){
+        }
+
+        if( isset($getLast->id) ){
+
+
+            if($getLast->map_key != $slug ){
                 $MapDB = Levels::where('Name',$this->mapname)->first();
                 $payload = [
                     'name'=>$this->mapname,
