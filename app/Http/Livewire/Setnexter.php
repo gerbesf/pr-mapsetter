@@ -12,6 +12,7 @@ class Setnexter extends Component
 
     public $gamemode = "Aas";
     public $gamemap = 'All';
+    public $loader = true;
     public $index_mode;
     public $sorteado;
     public $gamemodeAvaliable = [
@@ -37,6 +38,7 @@ class Setnexter extends Component
     }
 
     public function setMode( $mode , $sync = true ){
+        $this->loader = true;
         $this->gamemode = $mode;
         $this->gamemap = 'All';
      #   $this->avaliable_maps = [];
@@ -47,18 +49,23 @@ class Setnexter extends Component
     }
 
     public function setMapMode( $mode ){
+        $this->loader = true;
         $this->gamemap = $mode;
         $this->sorteado = [];
         $this->populateMode();
     }
 
     public function setMapSize($size){
+        $this->loader = true;
         $this->mapsize = $size;
         $this->populateMode();
     }
 
     public function generateVotemap(){
 
+        $this->loader = true;
+
+        sleep(1);
         $items = array_values(collect($this->avaliable_maps)->filter(function ($item){
             if($item['Avaliable']==true){
                 return $item;
@@ -88,10 +95,10 @@ class Setnexter extends Component
 
         }
 
+        $this->loader = false;
     }
 
     public function getRandom( $limit ){
-
         $numbers = array();
         while ( count($numbers) <= 2 ) {
             $x = mt_rand(0,$limit);
@@ -103,9 +110,6 @@ class Setnexter extends Component
         return $numbers;
     }
 
-    public function isAvaliable( $key ){
-        return true;
-    }
 
     public function latestMaps(){
         $latest_maps = ServerHistory::whereBetween('timestamp', [Carbon::now()->startOfDay()->subDays(2)->format('Y-m-d H:i:s'), Carbon::now()->endOfDay()->format('Y-m-d H:i:s')])->get();
@@ -118,6 +122,7 @@ class Setnexter extends Component
     }
 
     public function populateMode(){
+        $this->loader = true;
         $avaliable_maps = Levels::where($this->gamemode,true)->where('Size','<=',$this->mapsize)->get()->toArray();
         $result = [];
         $this->index_mode = $this->gamemodeAvaliable [ $this->gamemode ];
@@ -143,6 +148,8 @@ class Setnexter extends Component
         }
 
         $this->avaliable_maps = $result;
+
+        $this->loader = false;
 
     }
 

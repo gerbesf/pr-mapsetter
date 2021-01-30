@@ -1,4 +1,5 @@
 <div>
+    <div wire:loading> <div class="loading">Loading&#8230;</div></div>
     <form>
         {{--<h4 class="font-weight-light"><span @if($gamemode) class="bg-dark" @else class="text-success" @endif></span> {{$gamemode ?: 'Select Layout'}}</h4>
 --}}

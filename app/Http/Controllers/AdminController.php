@@ -47,7 +47,6 @@ class AdminController extends Controller
 
         if( isset($getLast->id) ){
 
-
             if($getLast->map_key != $slug ){
                 $MapDB = Levels::where('Name',$this->mapname)->first();
                 $payload = [
