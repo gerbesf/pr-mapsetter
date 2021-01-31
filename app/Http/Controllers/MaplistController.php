@@ -20,8 +20,6 @@ class MaplistController extends Controller
 
     }
 
-
-
     public function index( Request $request ){
 
         #$Maps = Levels::whereJsonContains('Layouts', ['Key' => 'gpm_skirmish','Value'=> 16]) ->get();

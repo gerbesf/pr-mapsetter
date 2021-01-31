@@ -37,7 +37,7 @@ class AdminController extends Controller
             $MapDB = Levels::where('Name',$this->mapname)->first();
             $payload = [
                 'name'=>$this->mapname,
-                'map_key'=>str_replace(['_','-'],'',$MapDB->Key),
+                'map_key'=>$slug,
                 'map_mode'=>str_replace('gpm_','',$this->gametype),
                 'map_size'=>$this->mapsize,
                 'timestamp'=>Carbon::now()
@@ -51,7 +51,8 @@ class AdminController extends Controller
                 $MapDB = Levels::where('Name',$this->mapname)->first();
                 $payload = [
                     'name'=>$this->mapname,
-                    'map_key'=>$MapDB->Key,
+                    'map_key'=>$slug,
+                 #   'map_key'=>$MapDB->Key,
                     'map_mode'=>str_replace('gpm_','',$this->gametype),
                     'map_size'=>$this->mapsize,
                     'timestamp'=>Carbon::now()
