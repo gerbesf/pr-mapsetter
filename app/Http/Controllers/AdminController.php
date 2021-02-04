@@ -25,9 +25,11 @@ class AdminController extends Controller
     }
 
 
-    public function history(){
+    public function history( Request $request ){
 
+        if($request->has('cron')){
         $this->populateServers();
+        }
         $this->configureServer();
 
         $slug = strtolower(str_replace(['_','-',' '],'',$this->mapname));

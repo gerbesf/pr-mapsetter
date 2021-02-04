@@ -31,8 +31,15 @@ trait Prspy{
                 ->asJson()
                 ->get();
         });
-        $this->servers = $response->servers;
-        sort($this->servers);
+
+        if( isset($response->servers)){
+
+            $this->servers = $response->servers;
+            sort($this->servers);
+
+        }else{
+            exit(0);
+        }
     }
 
     /**
@@ -44,7 +51,6 @@ trait Prspy{
         foreach($this->servers as $server){
 
             if($server->serverIp==$activeServer->ip){
-
                 $gVer = explode('-',$server->properties->gamever);
                 $this->hostname = substr($server->properties->hostname,14,99999);
                 $this->gamever = $gVer[0];

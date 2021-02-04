@@ -1,11 +1,8 @@
 <div>
     <form>
-        {{--<h4 class="font-weight-light"><span @if($gamemode) class="bg-dark" @else class="text-success" @endif></span> {{$gamemode ?: 'Select Layout'}}</h4>
---}}
-
 
         @if(!$sorteado)
-        <div class="bg-white rounded p-2 py-3">
+        <div class=" rounded p-2 py-3">
                 <div class="rounded px-2 text-uppercase text-muted border-bottom">Layout</div>
                 <div class="row pb-0 m-2">
                     <div class="col-md-2">
@@ -144,7 +141,7 @@
 
                 <div class=" bg-white  p-4 rounded" >
                     <a href="#" class="float-right btn btn-sm btn-light" wire:click="setMode('{{ $gamemode }}', false)">  Back</a>
-                    <h4 class="font-weight-bold">Results</h4>
+                    <h4 class="font-weight-bold">Results with: </h4>
                     <p class="text-lg-center text-muted small"> Generated on {{ $timestamp }}</p>
                     <div class="row" >
                         @foreach($avaliable_maps as $item)
@@ -168,45 +165,75 @@
                         <code>{{ $votemap_text }}</code>
                     </div>
                 </div>
-                <button class="btn btn-block btn-success mt-2" type="button" wire:click="generateVotemap()">Try Again</button>
+                <button class="btn btn-block btn-success mt-2" type="button" wire:click="generateVotemap()">Try Again ({{ $this->totals }} maps avaliable)</button>
             @else
                 @if(count($avaliable_maps))
-                    <div class="pb-2">
+                    <div class="pb-2 col-lg-4 py-4 m-auto">
                         <button class="btn btn-block btn-success" type="button" wire:click="generateVotemap()"><b>Generate</b> ({{ $this->totals }} maps avaliable)</button>
                     </div>
                 @endif
                 @if($unavaliable)
                     <div class="alert alert-danger">No have maps to generate</div>
                 @endif
-                <div class="row">
-                    @foreach($avaliable_maps as $item)
-                        <div class="col-md-3">
-                            <div class="card card-body mb-2 @if($item['Avaliable']) border-success @endif" >
-                                <div style=""><b>{{ $item['Name'] }}</b> - {{ $item['Size'] }}KM</div>
-                                <div>
-                                    {{--{{ $item['Slug'] }}--}}
+                    <div class="row">
+                        @foreach($avaliable_maps as $item)
+                            @if($item['Avaliable'])
+                                <div class="col-lg-3 col-md-4 col-xs-6">
+                                    <div class="card card-body mb-2 @if($item['Avaliable']) border-success @endif" >
+                                        <div style=""><b>{{ $item['Name'] }}</b> <span class="float-right small"> {{ $item['Size'] }}KM</span> </div>
+                                        <div class="small">
+                                            @foreach($item['Layouts'][$index_mode] as $size=>$name)
+                                                <span class="badge badge-light">{{ $name  }}</span>
+                                            @endforeach
+                                        </div>
+                                        <div>
+                                            {{--{{ $item['Slug'] }}--}}
 
-                                    @if( isset($item['motive']))
-                                        <b class="text-danger">Unavaliable</b> <small>{{ $item['motive'] }}</small>
-                                    @else
-                                        @if(!$item['Avaliable'])
-                                            <b class="text-danger">Unavaliable</b> <small> played {{ $item['LatestGame'] }}</small>
-                                        @else
-                                            <b class="text-success">Avaliable</b>
-                                        @endif
-                                    @endif
+                                            @if( isset($item['motive']))
+                                                <b class="text-danger">Unavaliable</b> <small>{{ $item['motive'] }}</small>
+                                            @else
+                                                @if(!$item['Avaliable'])
+                                                    <b class="text-danger">Unavaliable</b> <small> played {{ $item['LatestGame'] }}</small>
+                                                @else
+                                                    <b class="text-success">Avaliable</b>
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="small">
-                                    @foreach($item['Layouts'][$index_mode] as $size=>$name)
-                                        <span class="badge badge-light">{{ $name  }}</span>
-                                    @endforeach
+                            @endif
+                        @endforeach
+                    </div>
+
+                    <div class="row">
+                        @foreach($avaliable_maps as $item)
+                            @if(!$item['Avaliable'])
+                                <div class="col-lg-3 col-md-4 col-xs-6">
+                                    <div class="card card-body mb-2 @if($item['Avaliable']) border-success @endif" >
+                                        <div style=""><b>{{ $item['Name'] }}</b> <span class="float-right small"> {{ $item['Size'] }}KM</span> </div>
+                                        <div class="small">
+                                            @foreach($item['Layouts'][$index_mode] as $size=>$name)
+                                                <span class="badge badge-light">{{ $name  }}</span>
+                                            @endforeach
+                                        </div>
+                                        <div>
+                                            {{--{{ $item['Slug'] }}--}}
+
+                                            @if( isset($item['motive']))
+                                                <b class="text-danger">Unavaliable</b> <small>{{ $item['motive'] }}</small>
+                                            @else
+                                                @if(!$item['Avaliable'])
+                                                    <b class="text-danger">Unavaliable</b> <small> played {{ $item['LatestGame'] }}</small>
+                                                @else
+                                                    <b class="text-success">Avaliable</b>
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        @if($item['Avaliable'])
-                        @endif
-                    @endforeach
-                </div>
+                            @endif
+                        @endforeach
+                    </div>
             @endif
 
         @endif
