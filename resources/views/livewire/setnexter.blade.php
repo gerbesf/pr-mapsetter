@@ -3,6 +3,7 @@
         {{--<h4 class="font-weight-light"><span @if($gamemode) class="bg-dark" @else class="text-success" @endif></span> {{$gamemode ?: 'Select Layout'}}</h4>
 --}}
 
+
         @if(!$sorteado)
         <div class="bg-white rounded p-2 py-3">
                 <div class="rounded px-2 text-uppercase text-muted border-bottom">Layout</div>
@@ -49,12 +50,14 @@
                             <span class="form-check-label"> All </span>
                         </label>
                     </div>
+                    @if($this->index_mode!='cnc')
                     <div class="col-md-2">
                         <label class="form-check pb-0 mb-0" wire:click="setMapMode('Ww2')">
                             <input class="form-check-input" wire:model="gamemap" name="gamemap" type="radio" value="Ww2">
                             <span class="form-check-label"> WW2 </span>
                         </label>
                     </div>
+                    @endif
                     <div class="col-md-2">
                         <label class="form-check pb-0 mb-0" wire:click="setMapMode('Vietnam')">
                             <input class="form-check-input" wire:model="gamemap" name="gamemap" type="radio" value="Vietnam">
@@ -64,7 +67,7 @@
                 </div>
             @endif
 
-            @if($this->index_mode != 'skirmish' && ! in_array( $this->gamemap, ['Ww2','Vietnam']))
+            @if($this->index_mode != 'skirmish' &&  $this->index_mode != 'vehicles' && $this->index_mode != 'cnc' && ! in_array( $this->gamemap, ['Ww2','Vietnam']))
            {{-- <div class="row no-gutters">
                 <div class="col-md-6">
 

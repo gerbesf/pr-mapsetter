@@ -145,7 +145,7 @@ class Setnexter extends Component
         $this->totals = 0;
 
 
-        if($this->index_mode == 'skirmish' or $this->gamemap=="Vietnam" or $this->gamemap=="Ww2"){
+        if($this->index_mode == 'skirmish' or $this->index_mode == 'cnc' or $this->index_mode == 'vehicles' or $this->gamemap=="Vietnam" or $this->gamemap=="Ww2"){
             $this->run_filters = false;
         }else{
             $this->run_filters = true;
@@ -176,7 +176,7 @@ class Setnexter extends Component
                         $map_item['Avaliable'] = false;
                         $map_item['motive'] = 'small map';
                     }
-                    if($map_item['Size']==2){
+                    if($map_item['Size']==2 && $this->index_mode!="insurgency"){
                         if( !isset( $map_item['Layouts'][$this->index_mode][32]) ) {
                             $map_item['Avaliable'] = false;
                             $map_item['motive'] = 'no have alt layout';
