@@ -32,37 +32,40 @@ class AdminController extends Controller
         }
         $this->configureServer();
 
-        $slug = strtolower(str_replace(['_','-',' '],'',$this->mapname));
-        $getLast = ServerHistory::orderBy('id','desc')->first();
-        if( !isset($getLast->id) ){
+        if($request->has('cron') && $this->mapname){
 
-            $MapDB = Levels::where('Name',$this->mapname)->first();
-            $payload = [
-                'name'=>$this->mapname,
-                'map_key'=>$slug,
-                'map_mode'=>str_replace('gpm_','',$this->gametype),
-                'map_size'=>$this->mapsize,
-                'timestamp'=>Carbon::now()
-            ];
-            ServerHistory::create($payload);
-        }
+            $slug = strtolower(str_replace(['_','-',' '],'',$this->mapname));
+            $getLast = ServerHistory::orderBy('id','desc')->first();
+            if( !isset($getLast->id) ){
 
-        if( isset($getLast->id) ){
-
-            if($getLast->map_key != $slug ){
                 $MapDB = Levels::where('Name',$this->mapname)->first();
                 $payload = [
                     'name'=>$this->mapname,
                     'map_key'=>$slug,
-                 #   'map_key'=>$MapDB->Key,
                     'map_mode'=>str_replace('gpm_','',$this->gametype),
                     'map_size'=>$this->mapsize,
                     'timestamp'=>Carbon::now()
                 ];
                 ServerHistory::create($payload);
             }
-        }
 
+            if( isset($getLast->id) ){
+
+                if($getLast->map_key != $slug ){
+                    $MapDB = Levels::where('Name',$this->mapname)->first();
+                    $payload = [
+                        'name'=>$this->mapname,
+                        'map_key'=>$slug,
+                     #   'map_key'=>$MapDB->Key,
+                        'map_mode'=>str_replace('gpm_','',$this->gametype),
+                        'map_size'=>$this->mapsize,
+                        'timestamp'=>Carbon::now()
+                    ];
+                    ServerHistory::create($payload);
+                }
+            }
+
+        }
         return view('history',[
             'list'=>ServerHistory::limit(100)->orderBy('timestamp','desc')->get()
         ]);
