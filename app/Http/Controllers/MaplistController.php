@@ -15,6 +15,8 @@ class MaplistController extends Controller
     use Prspy;
     use Generator;
 
+
+
     public function __construct()
     {
 
@@ -35,6 +37,7 @@ class MaplistController extends Controller
 
         $lista = json_decode(file_get_contents('https://www.realitymod.com/mapgallery/json/levels.json'));
         foreach($lista as $item){
+            print_r($item);
             $array_object = collect($item)->toArray();
 
             $attritutes = $this->getMapAttributes($array_object['Key'], $array_object['Layouts'] );
@@ -48,6 +51,9 @@ class MaplistController extends Controller
             $array_object['Slug'] = str_replace(['-','_'],'',$array_object['Image']);
             $check = Levels::where('Name',$array_object['Name'])->count();
 
+            $datas = $this->configureSizes( $attritutes['Layouts']);
+            #dd($datas);
+
             if($check==0){
                 Levels::create( $array_object );
             }else{
@@ -56,6 +62,45 @@ class MaplistController extends Controller
         }
 
         return redirect('/admin');
+    }
+
+
+    // 0_40|41_60|61_80|81_100
+    // inf |
+    public function configureSizes( $Layouts ){
+
+     #   $qnt_players = explode('|','0_40|41_60|61_80|81_100');
+        $qnt_players = [];
+
+        foreach ($Layouts as $mode=>$sizes){
+
+            if( !in_array('Large',$sizes)){
+             #   dd('achei');
+            }
+                #dd($mode,$sizes);
+                foreach ( $sizes as $key=>$item){
+                    if($key==16){
+                        $qnt_players[$mode]['0_40'][]= $this->size_names [ $key ];
+                    }
+                    if($key==32){
+                        $qnt_players[$mode]['41_60'][]= $this->size_names [ $key ];
+                        $qnt_players[$mode]['61_80'][]= $this->size_names [ $key ];
+                        $qnt_players[$mode]['81_100'][]= $this->size_names [ $key ];
+                    }
+                    if($key==64){
+                        $qnt_players[$mode]['0_40'][]= $this->size_names [ $key ];
+                        $qnt_players[$mode]['41_60'][]= $this->size_names [ $key ];
+                        $qnt_players[$mode]['61_80'][]= $this->size_names [ $key ];
+                        $qnt_players[$mode]['81_100'][]= $this->size_names [ $key ];
+                    }
+                    if($key==128){
+                        $qnt_players[$mode]['61_80'][]= $this->size_names [ $key ];
+                        $qnt_players[$mode]['81_100'][]= $this->size_names [ $key ];
+                    }
+                }
+        }
+        #dd($Layouts,$qnt_players);
+       # dd($Layouts,$filas);
     }
 
     public function getMapAttributes( $map_key, $layouts ){
@@ -103,7 +148,6 @@ class MaplistController extends Controller
             if(in_array($map_key, $this->Vietnam_maps)){
                 $Vietnam = true;
             }
-
 
         }
         return [

@@ -7,7 +7,7 @@
         <div class="bg-white rounded p-2 py-3">
                 <div class="rounded px-2 text-uppercase text-muted border-bottom">Layout</div>
                 <div class="row pb-0 m-2">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <label class="form-check pb-0 mb-0" wire:click="setMode('Aas')">
                             <input class="form-check-input"  wire:model="gamemode" name="gamemode" type="radio" value="Aas">
                             <span class="form-check-label"> AAS </span>
@@ -39,60 +39,110 @@
                     </div>
                 </div>
 
-            <div class="rounded px-2 text-uppercase text-muted border-bottom">Map size</div>
+
+            @if( in_array($gamemode,['Aas','Skirmish','Cnc']))
+                <div class="rounded px-2 text-uppercase text-muted border-bottom">Mods</div>
                 <div class="row pb-0 m-2">
-                    <div class="col-md-4">
-                        <label class="form-check pb-0 mb-0" wire:click="setMapSize('2')">
-                            <input class="form-check-input" wire:model="mapsize" name="mapsize" type="radio" value="2">
-                            <span class="form-check-label"> 2KM </span>
+                    <div class="col-md-2">
+                        <label class="form-check pb-0 mb-0" wire:click="setMapMode('All')">
+                            <input class="form-check-input" wire:model="gamemap" name="gamemap" type="radio" value="All">
+                            <span class="form-check-label"> All </span>
                         </label>
                     </div>
-                    <div class="col-md-4">
-                        <label class="form-check pb-0 mb-0" wire:click="setMapSize('4')">
-                            <input class="form-check-input" wire:model="mapsize" name="mapsize" type="radio" value="4">
-                            <span class="form-check-label"> 4KM </span>
+                    <div class="col-md-2">
+                        <label class="form-check pb-0 mb-0" wire:click="setMapMode('Ww2')">
+                            <input class="form-check-input" wire:model="gamemap" name="gamemap" type="radio" value="Ww2">
+                            <span class="form-check-label"> WW2 </span>
                         </label>
                     </div>
-                    <div class="col-md-4">
-                        <label class="form-check pb-0 mb-0" wire:click="setMapSize('8')">
-                            <input class="form-check-input" wire:model="mapsize" name="mapsize" type="radio" value="8">
-                            <span class="form-check-label"> 8KM </span>
+                    <div class="col-md-2">
+                        <label class="form-check pb-0 mb-0" wire:click="setMapMode('Vietnam')">
+                            <input class="form-check-input" wire:model="gamemap" name="gamemap" type="radio" value="Vietnam">
+                            <span class="form-check-label"> Vietnam </span>
                         </label>
                     </div>
                 </div>
+            @endif
 
-                @if( in_array($gamemode,['Aas','Skirmish','Cnc']))
-                <div class="rounded px-2 text-uppercase text-muted border-bottom">Mods</div>
+            @if($this->index_mode != 'skirmish' && ! in_array( $this->gamemap, ['Ww2','Vietnam']))
+           {{-- <div class="row no-gutters">
+                <div class="col-md-6">
+
+                    <div class="rounded px-2 text-uppercase text-muted border-bottom">Map size</div>
                     <div class="row pb-0 m-2">
-                        <div class="col-md-2">
-                            <label class="form-check pb-0 mb-0" wire:click="setMapMode('All')">
-                                <input class="form-check-input" wire:model="gamemap" name="gamemap" type="radio" value="All">
-                                <span class="form-check-label"> All </span>
+                        <div class="col-md-4">
+                            <label class="form-check pb-0 mb-0" wire:click="setMapSize('2')">
+                                <input class="form-check-input" wire:model="mapsize" name="mapsize" type="radio" value="2">
+                                <span class="form-check-label"> 2KM </span>
                             </label>
                         </div>
-                        <div class="col-md-2">
-                            <label class="form-check pb-0 mb-0" wire:click="setMapMode('Ww2')">
-                                <input class="form-check-input" wire:model="gamemap" name="gamemap" type="radio" value="Ww2">
-                                <span class="form-check-label"> WW2 </span>
+                        <div class="col-md-4">
+                            <label class="form-check pb-0 mb-0" wire:click="setMapSize('4')">
+                                <input class="form-check-input" wire:model="mapsize" name="mapsize" type="radio" value="4">
+                                <span class="form-check-label"> 4KM </span>
                             </label>
                         </div>
-                        <div class="col-md-2">
-                            <label class="form-check pb-0 mb-0" wire:click="setMapMode('Vietnam')">
-                                <input class="form-check-input" wire:model="gamemap" name="gamemap" type="radio" value="Vietnam">
-                                <span class="form-check-label"> Vietnam </span>
+                        <div class="col-md-4">
+                            <label class="form-check pb-0 mb-0" wire:click="setMapSize('8')">
+                                <input class="form-check-input" wire:model="mapsize" name="mapsize" type="radio" value="8">
+                                <span class="form-check-label"> 8KM </span>
                             </label>
                         </div>
                     </div>
-                @endif
+
+                </div>
+                <div class="col-md-6">--}}
+                    <div class="rounded px-2 text-uppercase text-muted border-bottom">Players</div>
+
+                    <div class="row pb-0 m-2">
+                        <div class="col-md-4">
+                            <label class="form-check pb-0 mb-0" wire:click="setPlayerSize('low')">
+                                <input class="form-check-input" wire:model="players_size" name="players_size" type="radio" value="low">
+                                <span class="form-check-label"> Low </span>
+                            </label>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-check pb-0 mb-0" wire:click="setPlayerSize('medium')">
+                                <input class="form-check-input" wire:model="players_size" name="players_size" type="radio" value="medium">
+                                <span class="form-check-label"> Medium </span>
+                            </label>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-check pb-0 mb-0" wire:click="setPlayerSize('high')">
+                                <input class="form-check-input" wire:model="players_size" name="players_size" type="radio" value="high">
+                                <span class="form-check-label"> High </span>
+                            </label>
+                        </div>
+                    </div>
+             {{--   </div>
+            </div>--}}
+
+            @endif
         </div>
         @endif
 
         @if($gamemode)
             @if($sorteado)
+
+                <div class="row text-center pb-3">
+                    <div class="col-4">
+                        Layout: <br>
+                        <b> {{ $gamemode }}</b>
+                    </div>
+                    <div class="col-4">
+                        Mods: <br>
+                        <b> {{ $gamemap }}</b>
+                    </div>
+                    <div class="col-4">
+                        Players: <br>
+                        <b> {{ ucfirst($players_size) }}</b>
+                    </div>
+                </div>
+
                 <div class=" bg-white  p-4 rounded" >
-                    <a href="#" class="float-right" wire:click="setMode('{{ $gamemode }}', false)">Rollback</a>
-                    <h4>Results</h4>
-                    <p class="text-lg-center text-dark"> Generated on {{ $timestamp }}</p>
+                    <a href="#" class="float-right btn btn-sm btn-light" wire:click="setMode('{{ $gamemode }}', false)">  Back</a>
+                    <h4 class="font-weight-bold">Results</h4>
+                    <p class="text-lg-center text-muted small"> Generated on {{ $timestamp }}</p>
                     <div class="row" >
                         @foreach($avaliable_maps as $item)
                             @foreach($sorteado as $mapa)
@@ -119,7 +169,7 @@
             @else
                 @if(count($avaliable_maps))
                     <div class="pb-2">
-                        <button class="btn btn-block btn-success" type="button" wire:click="generateVotemap()"><b>Generate</b> ({{ count($avaliable_maps) }} maps avaliable)</button>
+                        <button class="btn btn-block btn-success" type="button" wire:click="generateVotemap()"><b>Generate</b> ({{ $this->totals }} maps avaliable)</button>
                     </div>
                 @endif
                 @if($unavaliable)
@@ -128,14 +178,19 @@
                 <div class="row">
                     @foreach($avaliable_maps as $item)
                         <div class="col-md-3">
-                            <div class="card card-body mb-2" style="@if($item['Avaliable']) @else opacity:0.4 @endif">
+                            <div class="card card-body mb-2 @if($item['Avaliable']) border-success @endif" >
                                 <div style=""><b>{{ $item['Name'] }}</b> - {{ $item['Size'] }}KM</div>
                                 <div>
                                     {{--{{ $item['Slug'] }}--}}
-                                    @if(!$item['Avaliable'])
-                                        <b class="text-danger">Unavaliable</b> - <small>{{ $item['LatestGame'] }}</small>
+
+                                    @if( isset($item['motive']))
+                                        <b class="text-danger">Unavaliable</b> <small>{{ $item['motive'] }}</small>
                                     @else
-                                        <b class="text-success">Avaliable</b>
+                                        @if(!$item['Avaliable'])
+                                            <b class="text-danger">Unavaliable</b> <small> played {{ $item['LatestGame'] }}</small>
+                                        @else
+                                            <b class="text-success">Avaliable</b>
+                                        @endif
                                     @endif
                                 </div>
                                 <div class="small">
@@ -145,6 +200,8 @@
                                 </div>
                             </div>
                         </div>
+                        @if($item['Avaliable'])
+                        @endif
                     @endforeach
                 </div>
             @endif

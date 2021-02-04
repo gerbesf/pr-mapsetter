@@ -28,8 +28,8 @@ trait Generator
 
     protected $size_names = [
         '16' => 'Infantry',
-        '32' => 'Alternative',
         '64' => 'Standard',
+        '32' => 'Alternative',
         '128' => 'Large',
     ];
 

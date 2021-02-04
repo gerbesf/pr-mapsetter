@@ -23,13 +23,11 @@
                 <td class="@if($map->Aas) bg-primary text-white @else bg-white text-white @endif">
                     <b>AAS</b>
                     <div>
-                        <small>
                             @if( isset($map->Layouts['cq']))
                                 @foreach($map->Layouts['cq'] as $sizze)
-                                    {{ $sizze }}
+                                    <a href="#"><span class="badge badge-dark">{{ $sizze }}</span></a>
                                 @endforeach
                             @endif
-                        </small>
                     </div>
                 </td>
                 <td class="@if($map->Insurgency) bg-warning text-dark @else bg-white text-white @endif">

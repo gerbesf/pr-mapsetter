@@ -29,8 +29,19 @@ class Setnexter extends Component
     public $unavaliable = false;
     public $votemap_text = '';
     public $mapsize = 8;
+    public $run_filters = true;
+
+    public $players_sizes = [
+        'low','medium','high'
+    ];
+    public $players_size = 'medium';
 
     public $notIn = [];
+
+    public $totals = 0;
+
+    public $players_avaliable;
+    public $players_limitation = [];
 
     public function mount(){
         $this->latestMaps();
@@ -61,6 +72,12 @@ class Setnexter extends Component
         $this->populateMode();
     }
 
+
+    public function setPlayerSize($size){
+        $this->players_size = $size;
+        $this->populateMode();
+    }
+
     public function generateVotemap(){
 
         $this->loader = true;
@@ -83,7 +100,7 @@ class Setnexter extends Component
             $votemap_text = 'votemap ';
             $sorteado = $this->getRandom( $limit );
 
-            # dd($items,$sorteado,$limit);
+            # dd($sorteado,$limit);
             $this->sorteado = [];
             foreach($sorteado as $item){
                 $this->sorteado[] = $items[ $item ];
@@ -109,7 +126,7 @@ class Setnexter extends Component
     }
 
     public function latestMaps(){
-        $latest_maps = ServerHistory::whereBetween('timestamp', [Carbon::now()->startOfDay()->subDays(2)->format('Y-m-d H:i:s'), Carbon::now()->endOfDay()->format('Y-m-d H:i:s')])->get();
+        $latest_maps = ServerHistory::whereBetween('timestamp', [Carbon::now()->startOfDay()->subDays(5)->format('Y-m-d H:i:s'), Carbon::now()->endOfDay()->format('Y-m-d H:i:s')])->get();
         foreach($latest_maps as $itemm){
             $this->notIn[ $itemm->map_mode][$itemm->map_key] =  [
                 'key'=>$itemm->map_key,
@@ -119,11 +136,24 @@ class Setnexter extends Component
     }
 
     public function populateMode(){
+
         $this->loader = true;
         $avaliable_maps = Levels::where($this->gamemode,true)->where('Size','<=',$this->mapsize)->get()->toArray();
         $result = [];
         $this->index_mode = $this->gamemodeAvaliable [ $this->gamemode ];
+
+        $this->totals = 0;
+
+
+        if($this->index_mode == 'skirmish' or $this->gamemap=="Vietnam" or $this->gamemap=="Ww2"){
+            $this->run_filters = false;
+        }else{
+            $this->run_filters = true;
+        }
+
+
         foreach($avaliable_maps as $map_item){
+
             if( isset($this->notIn[$this->index_mode][ $map_item['Image'] ])){
                 $map_item['Avaliable'] = false;
                 $map_item['LatestGame'] = $this->notIn[ $this->index_mode ][ $map_item['Image'] ]['timestamp'];
@@ -131,16 +161,74 @@ class Setnexter extends Component
                 $map_item['Avaliable'] = true;
                 $map_item['LatestGame'] = '';
             }
+
+            if($this->run_filters == true){
+                if( $this->players_size == 'medium') {
+                    if($map_item['Size']<=1){
+                        $map_item['Avaliable'] = false;
+                        $map_item['motive'] = 'small map';
+                    }
+                }
+
+
+                if( $this->players_size == 'high'){
+                    if($map_item['Size']<=1){
+                        $map_item['Avaliable'] = false;
+                        $map_item['motive'] = 'small map';
+                    }
+                    if($map_item['Size']==2){
+                        if( !isset( $map_item['Layouts'][$this->index_mode][32]) ) {
+                            $map_item['Avaliable'] = false;
+                            $map_item['motive'] = 'no have alt layout';
+                        }
+                    }
+                   /* if($map_item['Size']==2){
+                        if( !isset( $map_item['Layouts'][$this->index_mode][32]) ) {
+                            $map_item['Avaliable'] = false;
+                            $map_item['motive'] = 'no have alt layout';
+                        }
+                    }*/
+                }
+
+                if( $this->players_size == 'low'){
+                    if( !isset( $map_item['Layouts'][$this->index_mode][16]) ){
+                        if($map_item['Size']>=2) {
+                            $map_item['Avaliable'] = false;
+                            $map_item['motive'] = 'no have inf mod';
+                        }
+                    }
+                    if($map_item['Size']>=3){
+                        if(!isset( $map_item['Layouts'][$this->index_mode][16]  )) {
+                            $map_item['Avaliable'] = false;
+                            $map_item['motive'] = 'large map';
+                        }
+                    }
+                }
+            }
+
             if($this->gamemap=="Ww2"){
-                if($map_item['Ww2'])
+                if($map_item['Ww2']){
+
+                    if($map_item['Avaliable']){
+                        $this->totals++;
+                    }
                     $result[] = $map_item;
+                }
             }
             if($this->gamemap=="Vietnam"){
-                if($map_item['Vietnam'])
+                if($map_item['Vietnam']){
+
+                    if($map_item['Avaliable']){
+                        $this->totals++;
+                    }
                     $result[] = $map_item;
+                }
             }
             if($this->gamemap=="All"){
                 $result[] = $map_item;
+                if($map_item['Avaliable']){
+                    $this->totals++;
+                }
             }
         }
 
