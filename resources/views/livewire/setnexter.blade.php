@@ -149,7 +149,7 @@
                                 @if($mapa['Name']==$item['Name'])
                                     <div class="col-md-4">
                                         <div class="card card-body mb-2" style="@if($item['Avaliable']) @else opacity:0.4 @endif">
-                                            <h5 style=""><b>{{ $item['Name'] }}</b></h5>
+                                            <div style=""><b>{{ $item['Name'] }}</b> <span class="float-right small"> {{ $item['Size'] }}KM</span> </div>
                                             <div class="small">
                                                 @foreach($item['Layouts'][$index_mode] as $size=>$name)
                                                     <span class="badge badge-light">{{ $name  }}</span>
