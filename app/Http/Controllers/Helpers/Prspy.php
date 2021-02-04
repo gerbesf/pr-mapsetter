@@ -38,7 +38,7 @@ trait Prspy{
             sort($this->servers);
 
         }else{
-            exit(0);
+            throw new \Exception('Erro na consulta prspy');
         }
     }
 

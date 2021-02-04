@@ -28,7 +28,7 @@ class AdminController extends Controller
     public function history( Request $request ){
 
         if($request->has('cron')){
-        $this->populateServers();
+            $this->populateServers();
         }
         $this->configureServer();
 
