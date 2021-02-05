@@ -54,7 +54,7 @@ class MaplistController extends Controller
           #  $datas = $this->configureSizes( $attritutes['Layouts']);
             #dd($datas);
 
-            dd($array_object);
+           # dd($array_object);
 
             if($check==0){
                 Levels::create( $array_object );
