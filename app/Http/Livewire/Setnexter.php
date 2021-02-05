@@ -179,22 +179,29 @@ class Setnexter extends Component
 
 
                 if( $this->players_size == 'high'){
+
+                    if(!$map_item['Ww2']){
+
                     if($map_item['Size']<=1){
                         $map_item['Avaliable'] = false;
                         $map_item['motive'] = 'small map';
                     }
-                    if($map_item['Size']==2 && $this->index_mode!="insurgency"){
+                  /*  if($map_item['Size']==2 && $this->index_mode!="insurgency"){
                         if( !isset( $map_item['Layouts'][$this->index_mode][32]) ) {
                             $map_item['Avaliable'] = false;
                             $map_item['motive'] = 'no have alt layout';
                         }
-                    }
+                    }*/
+
+
                    /* if($map_item['Size']==2){
                         if( !isset( $map_item['Layouts'][$this->index_mode][32]) ) {
                             $map_item['Avaliable'] = false;
                             $map_item['motive'] = 'no have alt layout';
                         }
                     }*/
+
+                    }
                 }
 
                 if( $this->players_size == 'low'){
