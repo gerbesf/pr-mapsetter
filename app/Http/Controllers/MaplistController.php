@@ -37,7 +37,7 @@ class MaplistController extends Controller
 
         $lista = json_decode(file_get_contents('https://www.realitymod.com/mapgallery/json/levels.json'));
         foreach($lista as $item){
-            print_r($item);
+           # print_r($item);
             $array_object = collect($item)->toArray();
 
             $attritutes = $this->getMapAttributes($array_object['Key'], $array_object['Layouts'] );
@@ -51,8 +51,10 @@ class MaplistController extends Controller
             $array_object['Slug'] = str_replace(['-','_'],'',$array_object['Image']);
             $check = Levels::where('Name',$array_object['Name'])->count();
 
-            $datas = $this->configureSizes( $attritutes['Layouts']);
+          #  $datas = $this->configureSizes( $attritutes['Layouts']);
             #dd($datas);
+
+            dd($array_object);
 
             if($check==0){
                 Levels::create( $array_object );

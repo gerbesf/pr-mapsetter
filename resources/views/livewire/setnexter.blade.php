@@ -167,7 +167,7 @@
                 </div>
                 <button class="btn btn-block btn-success mt-2" type="button" wire:click="generateVotemap()">Try Again ({{ $this->totals }} maps avaliable)</button>
             @else
-                @if(count($avaliable_maps))
+                @if(is_array($avaliable_maps) && @count($avaliable_maps))
                     <div class="pb-2 col-lg-4 py-4 m-auto">
                         <button class="btn btn-block btn-success" type="button" wire:click="generateVotemap()"><b>Generate</b> ({{ $this->totals }} maps avaliable)</button>
                     </div>
@@ -176,6 +176,7 @@
                     <div class="alert alert-danger">No have maps to generate</div>
                 @endif
                     <div class="row">
+                        @if(is_array($avaliable_maps) && @count($avaliable_maps))
                         @foreach($avaliable_maps as $item)
                             @if($item['Avaliable'])
                                 <div class="col-lg-3 col-md-4 col-xs-6">
@@ -203,9 +204,11 @@
                                 </div>
                             @endif
                         @endforeach
+                        @endif
                     </div>
 
                     <div class="row">
+                        @if(is_array($avaliable_maps) && @count($avaliable_maps))
                         @foreach($avaliable_maps as $item)
                             @if(!$item['Avaliable'])
                                 <div class="col-lg-3 col-md-4 col-xs-6">
@@ -233,6 +236,7 @@
                                 </div>
                             @endif
                         @endforeach
+                        @endif
                     </div>
             @endif
 

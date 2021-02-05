@@ -239,7 +239,7 @@ class Setnexter extends Component
             }
         }
 
-        $this->avaliable_maps = rsort($result);
+        $this->avaliable_maps = $result;
 
         $this->loader = false;
 
