@@ -126,7 +126,7 @@ class Setnexter extends Component
     }
 
     public function latestMaps(){
-        $latest_maps = ServerHistory::whereBetween('timestamp', [Carbon::now()->startOfDay()->subDays(env('days_history'))->format('Y-m-d H:i:s'), Carbon::now()->endOfDay()->format('Y-m-d H:i:s')])->get();
+        $latest_maps = ServerHistory::whereBetween('timestamp', [Carbon::now()->startOfDay()->subDays(env('DAYS_HISTORY'))->format('Y-m-d H:i:s'), Carbon::now()->endOfDay()->format('Y-m-d H:i:s')])->get();
         foreach($latest_maps as $itemm){
             $this->notIn[ $itemm->map_mode][$itemm->map_key] =  [
                 'key'=>$itemm->map_key,
