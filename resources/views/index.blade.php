@@ -9,6 +9,7 @@
     <div class="text-center">
         <a href="/history" class="  btn btn-sm btn-light">History</a>
     </div>
+
     @livewire('setnexter')
 
 @endsection

@@ -126,7 +126,7 @@ class Setnexter extends Component
     }
 
     public function latestMaps(){
-        $latest_maps = ServerHistory::whereBetween('timestamp', [Carbon::now()->startOfDay()->subDays(5)->format('Y-m-d H:i:s'), Carbon::now()->endOfDay()->format('Y-m-d H:i:s')])->get();
+        $latest_maps = ServerHistory::whereBetween('timestamp', [Carbon::now()->startOfDay()->subDays(env('days_history'))->format('Y-m-d H:i:s'), Carbon::now()->endOfDay()->format('Y-m-d H:i:s')])->get();
         foreach($latest_maps as $itemm){
             $this->notIn[ $itemm->map_mode][$itemm->map_key] =  [
                 'key'=>$itemm->map_key,
@@ -165,8 +165,15 @@ class Setnexter extends Component
             if($this->run_filters == true){
                 if( $this->players_size == 'medium') {
                     if($map_item['Size']<=1){
+                        if( !isset( $map_item['Layouts'][$this->index_mode][32]) ) {
+                            $map_item['Avaliable'] = false;
+                            $map_item['motive'] = 'small map';
+                        }
+                    }
+
+                    if($map_item['Size']>=3){
                         $map_item['Avaliable'] = false;
-                        $map_item['motive'] = 'small map';
+                        $map_item['motive'] = 'large map';
                     }
                 }
 
@@ -191,17 +198,17 @@ class Setnexter extends Component
                 }
 
                 if( $this->players_size == 'low'){
+/*
                     if( !isset( $map_item['Layouts'][$this->index_mode][16]) ){
                         if($map_item['Size']>=2) {
                             $map_item['Avaliable'] = false;
                             $map_item['motive'] = 'no have inf mod';
                         }
-                    }
+                    }*/
+
                     if($map_item['Size']>=3){
-                        if(!isset( $map_item['Layouts'][$this->index_mode][16]  )) {
-                            $map_item['Avaliable'] = false;
-                            $map_item['motive'] = 'large map';
-                        }
+                        $map_item['Avaliable'] = false;
+                        $map_item['motive'] = 'large map';
                     }
                 }
             }
@@ -232,7 +239,7 @@ class Setnexter extends Component
             }
         }
 
-        $this->avaliable_maps = $result;
+        $this->avaliable_maps = rsort($result);
 
         $this->loader = false;
 
