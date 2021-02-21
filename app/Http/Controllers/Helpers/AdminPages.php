@@ -20,7 +20,7 @@ trait AdminPages
     public function admin()
     {
 
-        $this->sendTestMaps();
+      //  $this->sendTestMaps();
 
         // Server Active
         $server = Server::first();

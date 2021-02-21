@@ -31,7 +31,7 @@ trait Admins
                 }
 
                 session()->put('admin_username',$selectUser->nickname);
-                session()->put('admin_logged',$selectUser->id);
+                session()->put('admin_id',$selectUser->id);
                 return redirect('/');
             }else{
                 return redirect()->back()->withErrors('Auth Failed');

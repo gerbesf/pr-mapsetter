@@ -11,12 +11,23 @@ class SetLocker extends Model
     protected $fillable = [
         'user_id',
         'status',
-        'rotations',
-        'rotations_history'
+        'votemap',
+        'rotations_history',
+        'expires_at'
+    ];
+
+    protected $casts = [
+       # 'expires_at' => 'datetime',
+        'rotations_history' => 'array',
+        'votemap' => 'array',
     ];
 
     protected $hidden = [
         'password',
     ];
+
+    public function user(){
+        return $this->hasOne('App\Models\Admin','id','user_id');
+    }
 
 }

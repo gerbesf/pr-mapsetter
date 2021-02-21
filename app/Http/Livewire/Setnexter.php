@@ -2,10 +2,15 @@
 
 namespace App\Http\Livewire;
 
+use App\EtcLocker;
 use App\Models\Levels;
 use App\Models\ServerHistory;
+use App\Models\SetLocker;
 use Carbon\Carbon;
+use Hamcrest\Core\Set;
 use Livewire\Component;
+use Woeler\DiscordPhp\Message\DiscordEmbedMessage;
+use Woeler\DiscordPhp\Webhook\DiscordWebhook;
 
 class Setnexter extends Component
 {
@@ -44,9 +49,36 @@ class Setnexter extends Component
     public $players_limitation = [];
 
 
+    // locker
+    public $lock_id = null;
+    public $locked = false;
+    public $locked_user = '';
+    public $locked_expires = null;
+
+    public $historyRotation = [];
+
     public function mount(){
         $this->latestMaps();
         $this->populateMode();
+        $this->checkButton();
+    }
+
+    public function checkButton(){
+        $locker = SetLocker::where('status','locked')->where('user_id','!=',session()->get('admin_id'))->count();
+        if( $locker ){
+            $this->locked = true;
+            $userActive = SetLocker::where('status','locked')->where('user_id','!=',session()->get('admin_id'))->first();
+            $this->locked_user = $userActive->user->nickname;
+            $this->locked_expires = Carbon::parse($userActive->created_at)->diffForHumans();
+            if(Carbon::parse($userActive->created_at)->isPast()){
+
+                SetLocker::where('id',$userActive->id)->update([
+                    'status' => 'expired'
+                ]);
+                $EtcLocker = new EtcLocker();
+                $EtcLocker->discordAbandouVote($userActive);
+            }
+        }
     }
 
     public function setMode( $mode , $sync = true ){
@@ -78,7 +110,7 @@ class Setnexter extends Component
         $this->populateMode();
     }
 
-    public function generateVotemap(){
+    public function generateVotemap( $tryAgain = false ){
 
         if(!session()->has('admin_logged')){
             if( !session()->has('master_logged')){
@@ -86,39 +118,108 @@ class Setnexter extends Component
             }
         }
 
-        \Log::info(session()->get('admin_username'));
+        $locker = new EtcLocker( session()->get('admin_id'));
 
-        $this->loader = true;
+        // Não está travado, ou é do proprio usuário
+        if( $locker->checkHasLocked() == false ){
+            $entityLock = $locker->indexLocker();
+            $this->lock_id = $entityLock->id;
 
-        $items = array_values(collect($this->avaliable_maps)->filter(function ($item){
-            if($item['Avaliable']==true){
-                return $item;
+            if($entityLock->rotations_history && $tryAgain==false)
+                foreach($entityLock->rotations_history as $rHistory){
+                    $this->historyRotation[] = $rHistory;
+                }
+
+            \Log::info(session()->get('admin_username').' is generating ');
+
+            $this->loader = true;
+            $items = array_values(collect($this->avaliable_maps)->filter(function ($item){
+                if($item['Avaliable']==true){
+                    return $item;
+                }
+            })->toArray());
+            $limit = count($items)-1;
+            if($limit<=1){
+                $this->unavaliable = true;
+            }else{
+
+                $this->unavaliable = false;
+                $votemap_text = 'votemap ';
+                $votemap_history = [];
+                $sorteado = $this->getRandom( $limit );
+
+                $this->sorteado = [];
+                foreach($sorteado as $item){
+                    $this->sorteado[] = $items[ $item ];
+                    $votemap_text .= ' '.substr($items[ $item ]['Key'],0,9).' ';
+                    $votemap_history[] = $items[ $item ]['Name'];
+                }
+                $this->timestamp = Carbon::now()->format('d/m/Y H:i:s');
+                $this->votemap_text = $votemap_text;
+
             }
-        })->toArray());
 
-        $limit = count($items)-1;
+            $this->loader = false;
 
-        if($limit<=1){
+            $this->historyRotation[] = $votemap_history;
 
-            $this->unavaliable = true;
+            SetLocker::where('id',$this->lock_id)->update([
+                'rotations_history'=>$this->historyRotation,
+            ]);
 
-        }else{
-
-            $this->unavaliable = false;
-            $votemap_text = 'votemap ';
-            $sorteado = $this->getRandom( $limit );
-
-            $this->sorteado = [];
-            foreach($sorteado as $item){
-                $this->sorteado[] = $items[ $item ];
-                $votemap_text .= ' '.substr($items[ $item ]['Key'],0,9).' ';
-            }
-            $this->timestamp = Carbon::now()->format('d/m/Y H:i:s');
-            $this->votemap_text = $votemap_text;
-
+         #   dd($this->votemap_text,$votemap_history);
+            #dd($SetLocker);
+           # dd($index->expires_at->diffForHumans());
         }
 
-        $this->loader = false;
+
+
+    }
+
+    public function confirmVotemap(){
+
+        $Entity = SetLocker::where('id',$this->lock_id)->first();
+
+        if(count($this->historyRotation)>=2){
+            $votado = $this->historyRotation[ count($this->historyRotation)-1 ];
+        }else{
+            $votado = $this->historyRotation[0];
+        }
+
+        SetLocker::where('id',$this->lock_id)->update([
+            'votemap' => $votado,
+            'rotations_history'=>$this->historyRotation,
+            'status'=>'complete'
+        ]);
+
+        $text_votado = implode(',  ',$votado);
+        $nick = $Entity->user->nickname;
+
+        $message = (new DiscordEmbedMessage())
+            ->setAvatar(env('BOT_AVATAR'))
+            ->setUsername(env('BOT_NAME') . ' - Em Treinamento')
+            ->setTitle(ucfirst($nick).' realizou um votemap!')
+            ->setDescription( $text_votado)
+            ->setColor( 3066993);
+
+        if(count($this->historyRotation)==2){
+            $message->addField('Tentativa anterior', implode(', ',$this->historyRotation[0]));
+        }
+        if(count($this->historyRotation)>=3){
+            $copy = ($this->historyRotation);
+            unset($copy[ count($copy) -1 ]);
+            $i=1;
+            foreach($copy as $line){
+                $message->addField('Tentativa #'.$i, implode(', ',$line));
+                $i++;
+            }
+        }
+
+        $webhook = new DiscordWebhook( env('DSC_MAP') );
+        $webhook->send($message);
+
+        return redirect('/');   // logout
+
     }
 
     public function getRandom( $limit ){

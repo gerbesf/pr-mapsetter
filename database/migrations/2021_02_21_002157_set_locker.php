@@ -17,8 +17,9 @@ class SetLocker extends Migration
             $table->bigIncrements('id');
             $table->string('user_id');
             $table->string('status');
-            $table->integer('rotations');
-            $table->json('rotations_history');
+            $table->json('votemap')->nullable();
+            $table->json('rotations_history')->nullable();
+            $table->timestamp('expires_at');
             $table->timestamps();
         });
     }

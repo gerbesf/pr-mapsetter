@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin;
 
 use App\Models\Admin;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
 class Users extends Component
@@ -51,7 +52,7 @@ class Users extends Component
         Admin::create([
             'nickname' => $this->form_nickname,
             'username' => $this->form_username,
-            'password' => $this->form_password,
+            'password' => Hash::make($this->form_password),
             'level' => $this->form_level,
             'hash' => $this->form_hash,
         ]);
