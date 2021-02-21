@@ -26,14 +26,13 @@ class EtcLocker {
             ->setUsername(env('BOT_NAME') )
             ->setTitle(ucfirst($Lock->user->nickname).'')
             ->setDescription('Iniciou uma votação, mas abandou pelo caminho :(' )
-            ->setColor( 3066993);
+            ->setColor( 0x0099ff);
 
         $i=1;
         foreach($Lock->rotations_history as $line){
             $message->addField('Tentativa #'.$i, implode(', ',$line));
             $i++;
         }
-
         $webhook = new DiscordWebhook( env('DSC_MAP') );
         $webhook->send($message);
 

@@ -174,7 +174,7 @@
                         <code>{{ $votemap_text }}</code>
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-md-6">
                         <button class="btn btn-block btn-success mt-2" type="button" wire:click="confirmVotemap()">Confirm Vote</button>
