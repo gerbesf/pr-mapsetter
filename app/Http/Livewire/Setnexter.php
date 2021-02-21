@@ -197,7 +197,7 @@ class Setnexter extends Component
 
         $message = (new DiscordEmbedMessage())
             ->setAvatar(env('BOT_AVATAR'))
-            ->setUsername(env('BOT_NAME') . ' - Em Treinamento')
+            ->setUsername(env('BOT_NAME') )
             ->setTitle(ucfirst($nick).' realizou um votemap!')
             ->setDescription( $text_votado)
             ->setColor( 3066993);

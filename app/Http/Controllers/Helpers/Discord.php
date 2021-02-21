@@ -29,7 +29,7 @@ trait Discord
         $message = (new DiscordEmbedMessage())
             #   ->setContent('Hello World')
             ->setAvatar('https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/b4/b49d9078b553662cb1c432f9166dbc249bcc1296_full.jpg')
-            ->setUsername(env('BOT_NAME') . ' - Em Treinamento')
+            ->setUsername(env('BOT_NAME') )
             ->setTitle('Testando a picada')
             ->setDescription('Isto é somente um teste.')
 
