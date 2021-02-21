@@ -46,6 +46,7 @@ class Users extends Component
     public function createForm(){
         $this->form = true;
         $this->action = 'create';
+        $this->form_level = 'M';
     }
 
     public function createEntity(){
