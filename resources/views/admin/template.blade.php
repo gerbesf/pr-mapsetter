@@ -28,41 +28,43 @@
         <p class="lead">Simple Project Reality Banner Generator</p>
     </div>--}}
 
-    @if( session()->has('logged') )
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/admin">{{ env('APP_NAME') }}</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    @if( session()->has('master_logged') )
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/admin">{{ env('APP_NAME') }}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/admin">Dashboard <span class="sr-only">(current)</span></a>
-                </li>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="/rotation">Votação</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin">Maintence</a>
+                    </li>
 
-                <li class="nav-item ">
-                    <a class="nav-link" href="/admin/maplist">Map List</a>
-                </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="/admin/maplist">Map List</a>
+                    </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Settings
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/admin/configure">Change Server</a>
-                        <a class="dropdown-item" href="{{ route('update_levels') }}">Update Maplist</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="/logout">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+                    @if(session()->has('master_logged'))
+                    <li class="nav-item ">
+                        <a class="nav-link" href="/admin/users">Users</a>
+                    </li>
+                    @endif
+
+                    <li class="nav-item">
+                        <a class="nav-link " href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     @else
-        <div class="py-4">
-            <h4>Unauthorized</h4>
+        <div class="container">
+            <div class="py-4">
+                <h4>Unauthorized Access</h4>
+            </div>
         </div>
     @endif
     <div class="container">

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Administrators extends Migration
+class SetLocker extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class Administrators extends Migration
      */
     public function up()
     {
-        Schema::create('administrators', function (Blueprint $table) {
+        Schema::create('set_locker', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('email')->unique()->notNullable();
-            $table->string('password');
+            $table->string('user_id');
+            $table->string('status');
+            $table->integer('rotations');
+            $table->json('rotations_history');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class Administrators extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('administrators');
+        Schema::dropIfExists('set_locker');
     }
 }

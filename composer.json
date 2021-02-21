@@ -15,7 +15,8 @@
         "ixudra/curl": "^6.21",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
-        "livewire/livewire": "^2.3"
+        "livewire/livewire": "^2.3",
+        "woeler/phpdiscord": "^2.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

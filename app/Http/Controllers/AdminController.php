@@ -2,43 +2,56 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Helpers\Admins;
+use App\Http\Controllers\Helpers\AdminPages;
+use App\Http\Controllers\Helpers\Discord;
 use App\Http\Controllers\Helpers\Prspy;
-use App\Models\Administrators;
 use App\Models\Levels;
-use App\Models\Server;
 use App\Models\ServerHistory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
     use Prspy;
+    use Admins;
+    use AdminPages;
+    use Discord;
 
-    public function __construct()
-    {
-
+    public function __construct() {
+       # $this->middleware('admin')->only('rotation');
     }
 
+    // Degustation
     public function index(){
-        return view('index');
+        return view('welcome');
+    }
+
+    // Degustation
+    public function rotation(){
+        return view('rotation');
     }
 
 
+    // History of Maps
     public function history( Request $request ){
 
-        if($request->has('cron')){
+        // Is a cron request ?
+        if($request->has('cron'))
             $this->populateServers();
-        }
+
+        // Configure PrSpy Server
         $this->configureServer();
 
+        // If is a "cron request", with results
         if($request->has('cron') && $this->mapname){
 
+            // slug mapname
             $slug = strtolower(str_replace(['_','-',' '],'',$this->mapname));
             $getLast = ServerHistory::orderBy('id','desc')->first();
-            if( !isset($getLast->id) ){
 
-                $MapDB = Levels::where('Name',$this->mapname)->first();
+            // Create if first entity on database
+            if( !isset($getLast->id) ){
                 $payload = [
                     'name'=>$this->mapname,
                     'map_key'=>$slug,
@@ -49,8 +62,10 @@ class AdminController extends Controller
                 ServerHistory::create($payload);
             }
 
+            // Normal Rotine
             if( isset($getLast->id) ){
 
+                // Map diff from Last Entity
                 if($getLast->map_key != $slug ){
                     $MapDB = Levels::where('Name',$this->mapname)->first();
                     $payload = [
@@ -64,100 +79,19 @@ class AdminController extends Controller
                     ServerHistory::create($payload);
                 }
             }
-
         }
+
+        // View History
         return view('history',[
             'list'=>ServerHistory::limit(100)->orderBy('timestamp','desc')->get()
         ]);
     }
-    public function login( Request $request ){
-        return view('admin.login');
-    }
 
-    public function auth( Request $request ){
-
-        $input_email = $request->email;
-        $input_password = $request->password;
-
-        try {
-            $selectUser = Administrators::where('email',$input_email)->firstOrFail();
-        }catch( \Exception $exception ){
-            return redirect()->back()->withErrors('Auth Failed');
-        }
-
-        if( Hash::check( $input_password, $selectUser->password )){
-            session()->put('logged',$selectUser->id);
-            return redirect('/admin');
-        }else{
-            return redirect()->back()->withErrors('Auth Failed');
-        }
-
-
-        return redirect('/login');
-    }
-
+    // Generic Logout
     public function logout(){
-        session()->forget('logged');
+        session()->forget('admin_logged');
+        session()->forget('master_logged');
         return redirect('/');
-    }
-
-    public function admin()
-    {
-        if( Server::count() == 0 ){
-           # return redirect('/admin/configure');
-        }
-        $server = Server::first();
-        $Maps = Levels::get();
-        return view('admin.dashboard',[
-            'server' => $server,
-            'maps' => $Maps,
-        ]);
-    }
-
-    public function configure( Request $request ){
-
-
-        $this->populateServers();
-
-        // Set a New Server
-        if($request->ip){
-            foreach($this->servers as $server){
-
-                if( $server->serverIp==$request->ip){
-
-                    if( Server::count() == 0 ) {
-                        Server::create([
-                            'ip' => $server->serverIp,
-                            'name' => $this->getServerName( $server),
-                            'status' => 'active'
-                        ]);
-                    }else{
-                        $ServerEntity = Server::first();
-                        Server::where('id',$ServerEntity->id)->update([
-                            'ip' => $server->serverIp,
-                            'name' => $this->getServerName( $server),
-                            'status' => 'active'
-                        ]);
-                    }
-
-                    return redirect('/admin');
-                }
-            }
-        }
-
-        return view('admin.select_server',[
-            'servers' => $this->servers
-        ]);
-    }
-
-
-    public function getServerName( $server ){
-        $hostname = $server->properties->hostname;
-        $_ihostname = explode(' ',$hostname);
-        unset($_ihostname[0]);
-        unset($_ihostname[1]);
-        $name = implode(' ',$_ihostname);
-        return $name;
     }
 
 }

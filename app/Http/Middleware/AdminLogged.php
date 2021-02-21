@@ -17,7 +17,7 @@ class AdminLogged
     public function handle(Request $request, Closure $next)
     {
 
-        $session = session()->get('logged');
+        $session = session()->get('admin_logged');
         if(!$session){
             return redirect('/login');
         }

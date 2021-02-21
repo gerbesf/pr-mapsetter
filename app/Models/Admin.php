@@ -4,14 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Administrators extends Model
+class Admin extends Model
 {
-    public $table = 'administrators';
+    public $table = 'admins';
 
     protected $fillable = [
-        'name',
-        'email',
+        'nickname',
+        'username',
         'password',
+        'level',
+        'hash'
     ];
 
     protected $hidden = [

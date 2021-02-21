@@ -13,14 +13,14 @@ class ServerHistory extends Migration
      */
     public function up()
     {
-        Schema::create('server_history', function (Blueprint $table) {
+       /* Schema::create('server_history', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('map_key');
             $table->string('map_mode');
             $table->string('map_size');
             $table->dateTime('timestamp');
-        });
+        });*/
     }
 
     /**
@@ -30,6 +30,6 @@ class ServerHistory extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('server_history');
+        #Schema::dropIfExists('server_history');
     }
 }

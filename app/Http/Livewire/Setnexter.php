@@ -43,6 +43,7 @@ class Setnexter extends Component
     public $players_avaliable;
     public $players_limitation = [];
 
+
     public function mount(){
         $this->latestMaps();
         $this->populateMode();
@@ -52,7 +53,7 @@ class Setnexter extends Component
         $this->loader = true;
         $this->gamemode = $mode;
         $this->gamemap = 'All';
-     #   $this->avaliable_maps = [];
+        #   $this->avaliable_maps = [];
         $this->sorteado = [];
         if($sync){
             $this->populateMode();
@@ -72,13 +73,20 @@ class Setnexter extends Component
         $this->populateMode();
     }
 
-
     public function setPlayerSize($size){
         $this->players_size = $size;
         $this->populateMode();
     }
 
     public function generateVotemap(){
+
+        if(!session()->has('admin_logged')){
+            if( !session()->has('master_logged')){
+                return redirect('/login');
+            }
+        }
+
+        \Log::info(session()->get('admin_username'));
 
         $this->loader = true;
 
@@ -100,7 +108,6 @@ class Setnexter extends Component
             $votemap_text = 'votemap ';
             $sorteado = $this->getRandom( $limit );
 
-            # dd($sorteado,$limit);
             $this->sorteado = [];
             foreach($sorteado as $item){
                 $this->sorteado[] = $items[ $item ];
@@ -144,13 +151,11 @@ class Setnexter extends Component
 
         $this->totals = 0;
 
-
         if($this->index_mode == 'skirmish' or $this->index_mode == 'cnc' or $this->index_mode == 'vehicles' or $this->gamemap=="Vietnam" or $this->gamemap=="Ww2"){
             $this->run_filters = false;
         }else{
             $this->run_filters = true;
         }
-
 
         foreach($avaliable_maps as $map_item){
 
@@ -163,6 +168,7 @@ class Setnexter extends Component
             }
 
             if($this->run_filters == true){
+
                 if( $this->players_size == 'medium') {
                     if($map_item['Size']<=1){
                         if( !isset( $map_item['Layouts'][$this->index_mode][32]) ) {
@@ -177,41 +183,43 @@ class Setnexter extends Component
                     }
                 }
 
-
                 if( $this->players_size == 'high'){
 
                     if(!$map_item['Ww2']){
 
-                    if($map_item['Size']<=1){
-                        $map_item['Avaliable'] = false;
-                        $map_item['motive'] = 'small map';
-                    }
-                  /*  if($map_item['Size']==2 && $this->index_mode!="insurgency"){
-                        if( !isset( $map_item['Layouts'][$this->index_mode][32]) ) {
+                        if($map_item['Size']<=1){
                             $map_item['Avaliable'] = false;
-                            $map_item['motive'] = 'no have alt layout';
+                            $map_item['motive'] = 'small map';
                         }
-                    }*/
-
-
-                   /* if($map_item['Size']==2){
-                        if( !isset( $map_item['Layouts'][$this->index_mode][32]) ) {
-                            $map_item['Avaliable'] = false;
-                            $map_item['motive'] = 'no have alt layout';
-                        }
-                    }*/
+                        /*
+                        if($map_item['Size']==2 && $this->index_mode!="insurgency"){
+                              if( !isset( $map_item['Layouts'][$this->index_mode][32]) ) {
+                                  $map_item['Avaliable'] = false;
+                                  $map_item['motive'] = 'no have alt layout';
+                              }
+                          }
+                        */
+                        /*
+                            if($map_item['Size']==2){
+                                 if( !isset( $map_item['Layouts'][$this->index_mode][32]) ) {
+                                     $map_item['Avaliable'] = false;
+                                     $map_item['motive'] = 'no have alt layout';
+                                 }
+                             }
+                        */
 
                     }
                 }
 
                 if( $this->players_size == 'low'){
-/*
-                    if( !isset( $map_item['Layouts'][$this->index_mode][16]) ){
-                        if($map_item['Size']>=2) {
-                            $map_item['Avaliable'] = false;
-                            $map_item['motive'] = 'no have inf mod';
+                    /*
+                        if( !isset( $map_item['Layouts'][$this->index_mode][16]) ){
+                            if($map_item['Size']>=2) {
+                                $map_item['Avaliable'] = false;
+                                $map_item['motive'] = 'no have inf mod';
+                            }
                         }
-                    }*/
+                    */
 
                     if($map_item['Size']>=3){
                         $map_item['Avaliable'] = false;

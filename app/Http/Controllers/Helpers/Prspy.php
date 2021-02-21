@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Helpers;
 use App\Models\DiscrodHooks;
 use App\Models\Server;
 use Carbon\Carbon;
+use Woeler\DiscordPhp\Message\DiscordEmbedMessage;
+use Woeler\DiscordPhp\Webhook\DiscordWebhook;
 
 trait Prspy{
 

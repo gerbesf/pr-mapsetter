@@ -8,18 +8,20 @@
                 <div class="alert alert-danger">{{ $error }}</div>
             @endforeach
 
-            <div class="card card-body">
+            <div class="">
+
+                <h3>Admin Login</h3>
 
                 <form action="/auth" method="post">
                     @csrf
                     <div class="form-group">
-                        <input type="email" name="email" class="form-control" placeholder="E-mail">
+                        <input type="text" name="username" class="form-control" placeholder="Username">
                     </div>
                     <div class="form-group">
                         <input type="password" name="password" class="form-control" placeholder="Password">
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-dark">Log in</button>
+                        <button type="submit" class="btn btn-dark">Log in</button>
                     </div>
                 </form>
 

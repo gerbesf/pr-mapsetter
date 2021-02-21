@@ -110,6 +110,7 @@
       <path value="$PROJECT_DIR$/vendor/nunomaduro/collision" />
       <path value="$PROJECT_DIR$/vendor/ixudra/curl" />
       <path value="$PROJECT_DIR$/vendor/livewire/livewire" />
+      <path value="$PROJECT_DIR$/vendor/woeler/phpdiscord" />
     </include_path>
   </component>
   <component name="PhpUnit">

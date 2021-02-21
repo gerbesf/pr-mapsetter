@@ -2,7 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Administrators;
+use App\Models\Admin;
+use App\Models\AdminMaster;
 use Illuminate\Console\Command;
 
 class CreateUser extends Command
@@ -12,7 +13,7 @@ class CreateUser extends Command
      *
      * @var string
      */
-    protected $signature = 'create:user {name} {email} {password}';
+    protected $signature = 'create:admin_master {name} {username} {password}';
 
     /**
      * The console command description.
@@ -39,11 +40,12 @@ class CreateUser extends Command
     public function handle()
     {
         $name = $this->argument('name');
-        $email = $this->argument('email');
+        $username = $this->argument('username');
         $password = $this->argument('password');
-        Administrators::create([
-            'name' => $name,
-            'email' => $email,
+        Admin::create([
+            'nickname' => $name,
+            'username' => $username,
+            'level' => 'M',
             'password' => app('hash')->make($password),
             'created_at' => date_create()->format('Y-m-d H:i:s'),
             'updated_at' => date_create()->format('Y-m-d H:i:s'),

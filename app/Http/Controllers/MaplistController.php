@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Helpers\Generator;
 use App\Http\Controllers\Helpers\Prspy;
-use App\Models\Administrators;
+use App\Models\Admin;
 use App\Models\Levels;
 use App\Models\Server;
 use Illuminate\Http\Request;

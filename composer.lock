@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b8ced2913a03ab372df659d27fa02cf",
+    "content-hash": "e23e62501aa829f43ed11fb457744994",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -892,6 +892,10 @@
                 "curl",
                 "laravel"
             ],
+            "support": {
+                "issues": "https://github.com/ixudra/curl/issues",
+                "source": "https://github.com/ixudra/curl/tree/6.21.0"
+            },
             "time": "2020-09-22T12:50:01+00:00"
         },
         {
@@ -4752,6 +4756,51 @@
                 "validate"
             ],
             "time": "2020-07-08T17:02:28+00:00"
+        },
+        {
+            "name": "woeler/phpdiscord",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Woeler/discord-php.git",
+                "reference": "bbfd91f64fb32e1e800e8caa2ca1ae865cf0eab2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Woeler/discord-php/zipball/bbfd91f64fb32e1e800e8caa2ca1ae865cf0eab2",
+                "reference": "bbfd91f64fb32e1e800e8caa2ca1ae865cf0eab2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=7.2.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Woeler\\DiscordPhp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Woeler",
+                    "email": "woeler@woeler.eu"
+                }
+            ],
+            "description": "A php library to use Discord webhooks and embeds.",
+            "support": {
+                "issues": "https://github.com/Woeler/discord-php/issues",
+                "source": "https://github.com/Woeler/discord-php/tree/v2.0.0"
+            },
+            "time": "2020-01-31T10:20:45+00:00"
         }
     ],
     "packages-dev": [
@@ -7089,5 +7138,5 @@
         "php": "^7.3|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }
