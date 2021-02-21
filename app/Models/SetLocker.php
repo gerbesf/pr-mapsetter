@@ -13,11 +13,9 @@ class SetLocker extends Model
         'status',
         'votemap',
         'rotations_history',
-        'expires_at'
     ];
 
     protected $casts = [
-       # 'expires_at' => 'datetime',
         'rotations_history' => 'array',
         'votemap' => 'array',
     ];

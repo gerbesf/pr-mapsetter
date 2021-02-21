@@ -19,7 +19,7 @@ class SetLocker extends Migration
             $table->string('status');
             $table->json('votemap')->nullable();
             $table->json('rotations_history')->nullable();
-            $table->timestamp('expires_at');
+            #$table->timestamp('expires_at');
             $table->timestamps();
         });
     }
