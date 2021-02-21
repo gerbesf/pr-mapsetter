@@ -18,7 +18,7 @@ class Admins extends Migration
             $table->string('nickname');
             $table->string('username')->unique()->notNullable();
             $table->string('password');
-            $table->string('level',1);
+            $table->string('level',1)->default('A');
             $table->string('hash')->nullable();
             $table->timestamps();
         });
