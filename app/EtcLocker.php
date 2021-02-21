@@ -42,7 +42,7 @@ class EtcLocker {
         $Lock = SetLocker::where('status','locked')->first();
         if( isset($Lock->id)){
 
-            if(Carbon::parse($Lock->created_at)->addMinute()->isPast()){
+            if(Carbon::parse($Lock->created_at)->addMinutes( 5 )->isPast()){
 
                 SetLocker::where('id',$Lock->id)->update([
                     'status' => 'expired'

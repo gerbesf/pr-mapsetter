@@ -71,7 +71,6 @@ class Setnexter extends Component
             $this->locked_user = $userActive->user->nickname;
             $this->locked_expires = Carbon::parse($userActive->created_at)->diffForHumans();
             if(Carbon::parse($userActive->created_at)->isPast()){
-
                 SetLocker::where('id',$userActive->id)->update([
                     'status' => 'expired'
                 ]);
