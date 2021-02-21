@@ -174,8 +174,7 @@
                         <code>{{ $votemap_text }}</code>
                     </div>
                 </div>
-
-                {{ count($historyRotation) }}
+                
                 <div class="row">
                     <div class="col-md-6">
                         <button class="btn btn-block btn-success mt-2" type="button" wire:click="confirmVotemap()">Confirm Vote</button>
@@ -206,10 +205,6 @@
                 @if($unavaliable)
                     <div class="alert alert-danger">Não há mapas para votação</div>
                 @endif
-
-
-
-
 
 
                 <h4 class="pt-4 pb-2">Mapas disponíveis</h4>
