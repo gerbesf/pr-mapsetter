@@ -1,7 +1,6 @@
 <div>
     <form>
 
-
         @if(!$sorteado)
         <div class="card">
             <div class="card-header">
@@ -148,20 +147,69 @@
                     </div>
                 </div>
 
-                <div class=" bg-white  p-4 rounded" >
-                    <a href="#" class="float-right btn btn-sm btn-light" wire:click="setMode('{{ $gamemode }}', false)">  Back</a>
-                    <h4 class="font-weight-bold">Results with: </h4>
-                    <p class="text-lg-center text-muted small"> Generated on {{ $timestamp }}</p>
-                    <div class="row" >
+                    <h1 class="text-center"><span id="spanRelogio">00:00</span></h1>
+
+{{--
+                <a href="#" class="float-righxt btn btn-sm btn-light" wire:click="setMode('{{ $gamemode }}', false)">  Back</a>--}}
+                <div class="" >
+                 {{--   <h4 class="font-weight-bold">Results with: </h4>
+                    <p class="text-lg-center text-muted small"> Generated on {{ $timestamp }}</p>--}}
+
+                    <div class="row no-gutter" >
                         @foreach($avaliable_maps as $item)
                             @foreach($sorteado as $mapa)
                                 @if($mapa['Name']==$item['Name'])
-                                    <div class="col-md-4">
-                                        <div class="card card-body mb-2" style="@if($item['Avaliable']) @else opacity:0.4 @endif">
-                                            <div style=""><b>{{ $item['Name'] }}</b> <span class="float-right small"> {{ $item['Size'] }}KM</span> </div>
+                                    <div class="col-4">
+                                        <div class="" style="@if($item['Avaliable']) @else opacity:0.4 @endif">
+                                            <div class="text-center small"> {{ $item['Size'] }}KM</div>
+
+
+                                            <div class=" d-md-none">
+                                                @if($item['Slug']=='routee106')
+                                                    <img src="https://www.realitymod.com/mapgallery/images/maps/routee-106/tile.jpg" class="mb-2 w-100 rounded">
+                                                @elseif($item['Slug']=='musaqalabeta')
+                                                    <img src="https://www.realitymod.com/mapgallery/images/maps/musaqala-beta/tile.jpg" class="mb-2  w-100 rounded">
+                                                @elseif($item['Slug']=='adakbeta')
+                                                    <img src="https://www.realitymod.com/mapgallery/images/maps/adak-beta/tile.jpg" class="mb-2  w-100 rounded">
+                                                @elseif($item['Slug']=='operationthunderbeta')
+                                                    <img src="https://www.realitymod.com/mapgallery/images/maps/operationthunder-beta/tile.jpg" class="mb-2 w-100  rounded">
+                                                @elseif($item['Slug']=='masirahbeta')
+                                                    <img src="https://www.realitymod.com/mapgallery/images/maps/masirah-beta/tile.jpg" class="mb-2  w-100 rounded">
+                                                @elseif($item['Slug']=='hibernaseasonal')
+                                                    <img src="https://www.realitymod.com/mapgallery/images/maps/hiberna-seasonal/tile.jpg" class="mb-2  w-100 rounded">
+                                                @elseif($item['Slug']=='iceboundseasonal')
+                                                    <img src="https://www.realitymod.com/mapgallery/images/maps/icebound-seasonal/tile.jpg" class="mb-2 w-100  rounded">
+                                                @else
+                                                    <img src="https://www.realitymod.com/mapgallery/images/maps/{{ $item['Slug'] }}/tile.jpg" class="mb-2 w-100 rounded">
+                                                @endif
+
+                                            </div>
+
+                                            <div class="d-none d-md-inline-block">
+                                                @if($item['Slug']=='routee106')
+                                                    <img src="https://www.realitymod.com/mapgallery/images/maps/routee-106/banner.jpg" class="mb-2 w-100 rounded">
+                                                @elseif($item['Slug']=='musaqalabeta')
+                                                    <img src="https://www.realitymod.com/mapgallery/images/maps/musaqala-beta/banner.jpg" class="mb-2  w-100 rounded">
+                                                @elseif($item['Slug']=='adakbeta')
+                                                    <img src="https://www.realitymod.com/mapgallery/images/maps/adak-beta/banner.jpg" class="mb-2  w-100 rounded">
+                                                @elseif($item['Slug']=='operationthunderbeta')
+                                                    <img src="https://www.realitymod.com/mapgallery/images/maps/operationthunder-beta/banner.jpg" class="mb-2 w-100  rounded">
+                                                @elseif($item['Slug']=='masirahbeta')
+                                                    <img src="https://www.realitymod.com/mapgallery/images/maps/masirah-beta/banner.jpg" class="mb-2  w-100 rounded">
+                                                @elseif($item['Slug']=='hibernaseasonal')
+                                                    <img src="https://www.realitymod.com/mapgallery/images/maps/hiberna-seasonal/banner.jpg" class="mb-2  w-100 rounded">
+                                                @elseif($item['Slug']=='iceboundseasonal')
+                                                    <img src="https://www.realitymod.com/mapgallery/images/maps/icebound-seasonal/banner.jpg" class="mb-2 w-100  rounded">
+                                                @else
+                                                    <img src="https://www.realitymod.com/mapgallery/images/maps/{{ $item['Slug'] }}/banner.jpg" class="mb-2 w-100 rounded">
+                                                @endif
+
+                                            </div>
+
+                                            <div style="min-height: 60px"><b>{{ $item['Name'] }}</b>  </div>
                                             <div class="small">
                                                 @foreach($item['Layouts'][$index_mode] as $size=>$name)
-                                                    <span class="badge badge-light">{{ $name  }}</span>
+                                                    <div class="text-muted "> - {{ $name  }}</div>
                                                 @endforeach
                                             </div>
                                         </div>
@@ -177,10 +225,10 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <button class="btn btn-block btn-success mt-2" type="button" wire:click="confirmVotemap()">Confirm Vote</button>
+                        <button class="btn btn-block btn-success mt-2 font-weight-bold" type="button" wire:click="confirmVotemap()">Confirm Vote</button>
                     </div>
                     <div class="col-md-6">
-                        <button class="btn btn-block btn-light mt-2" type="button" wire:click="generateVotemap( true )">Try Again ({{ $this->totals }} maps avaliable)</button>
+                        <button class="btn btn-block btn-dark mt-2" type="button" wire:click="generateVotemap( true )">Try Again ({{ $this->totals }} maps avaliable)</button>
                     </div>
                 </div>
 
@@ -290,4 +338,83 @@
     </form>
 
     <span wire:loading> <div class="loading">Loading&#8230;</div></span>
+
+    @if($minuted)
+    <script>
+        'use strict'
+        var min = {{ $minuted }},
+            seg = {{ $secondd }};
+
+        window.start = function() {
+                relogio()
+        }
+
+        window.relogio = function(){
+
+            if((min > 0) || (seg > 0)){
+                if(seg == 0){
+                    seg = 59;
+                    min = min - 1
+                }
+                else{
+                    seg = seg - 1;
+                }
+                if(min.toString().length == 1){
+                    min = "0" + min;
+                }
+                if(seg.toString().length == 1){
+                    seg = "0" + seg;
+                }
+                document.getElementById('spanRelogio').innerHTML = min + ":" + seg;
+                setTimeout('window.relogio()', 1000);
+                setCookie('tempo',min + ":" + seg,30)
+            }
+            else{
+                document.getElementById('spanRelogio').innerHTML = "00:00";
+                min = 1;
+                seg = 1;
+            }
+        }
+
+        function setCookie(cname,cvalue,exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            var expires = "expires=" + d.toGMTString();
+            document.cookie = cname+"="+cvalue+"; "+expires;
+        }
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0; i<ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        function checkCookie() {
+
+            var cookie = getCookie("tempo");
+
+            if ( cookie != "" ) {
+
+                var tempo = getCookie('tempo').split(':');
+                min = tempo[0];
+                seg = tempo[1];
+
+                relogio();
+            }
+
+        }
+    </script>
+    <script>
+        window.start();
+    </script>
+    @endif
 </div>

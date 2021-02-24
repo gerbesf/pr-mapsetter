@@ -43,13 +43,12 @@ class EtcLocker {
         if( isset($Lock->id)){
 
             if(Carbon::parse($Lock->created_at)->addMinutes( 5 )->isPast()){
-
                 SetLocker::where('id',$Lock->id)->update([
                     'status' => 'expired'
                 ]);
-
                 $this->discordAbandouVote($Lock);
 
+                dd('Expirado!');
                 return true;
             }
 

@@ -57,6 +57,9 @@ class Setnexter extends Component
 
     public $historyRotation = [];
 
+    public $minuted;
+    public $secondd;
+
     public function mount(){
         $this->latestMaps();
         $this->populateMode();
@@ -141,7 +144,6 @@ class Setnexter extends Component
             if($limit<=1){
                 $this->unavaliable = true;
             }else{
-
                 $this->unavaliable = false;
                 $votemap_text = 'votemap ';
                 $votemap_history = [];
@@ -155,20 +157,20 @@ class Setnexter extends Component
                 }
                 $this->timestamp = Carbon::now()->format('d/m/Y H:i:s');
                 $this->votemap_text = $votemap_text;
-
             }
+
+
+            $this->minuted = Carbon::parse($entityLock->created_at)->addMinutes( 5 )->diffInMinutes();
+            $this->secondd = Carbon::parse($entityLock->created_at)->addMinutes( 5 )->subMinutes($this->minuted)->diffInSeconds();
 
             $this->loader = false;
 
+            // Histórico da votação
             $this->historyRotation[] = $votemap_history;
-
             SetLocker::where('id',$this->lock_id)->update([
                 'rotations_history'=>$this->historyRotation,
             ]);
 
-         #   dd($this->votemap_text,$votemap_history);
-            #dd($SetLocker);
-           # dd($index->expires_at->diffForHumans());
         }
 
 
@@ -194,12 +196,21 @@ class Setnexter extends Component
         $text_votado = implode(',  ',$votado);
         $nick = $Entity->user->nickname;
 
+
+        /*
+         *   $this->gamemode = $mode;
+        $this->gamemap = 'All';
+         */
         $message = (new DiscordEmbedMessage())
+            ->setContent('**'.ucfirst($nick).'** realizou um votemap')
             ->setAvatar(env('BOT_AVATAR'))
             ->setUsername(env('BOT_NAME') )
-            ->setTitle(ucfirst($nick).' realizou um votemap!')
-            ->setDescription( $text_votado)
+
+            ->setTitle($text_votado)
+         #   ->setDescription( $text_votado)
             ->setColor( 3066993);
+
+
 
         if(count($this->historyRotation)==2){
             $message->addField('Tentativa anterior', implode(', ',$this->historyRotation[0]));
@@ -212,6 +223,12 @@ class Setnexter extends Component
                 $message->addField('Tentativa #'.$i, implode(', ',$line));
                 $i++;
             }
+        }
+
+        if($this->gamemap){
+            $message->addField('Config ', strtoupper('**'.$this->gamemode.'** | '. $this->gamemap. " | __".ucfirst($this->players_size).'__'));
+        }else{
+            $message->addField('Config ', strtoupper('**'.$this->gamemode."** | __".ucfirst($this->players_size).'__'));
         }
 
         $webhook = new DiscordWebhook( env('DSC_MAP') );

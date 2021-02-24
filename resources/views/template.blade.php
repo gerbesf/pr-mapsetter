@@ -141,7 +141,7 @@
 </head>
 <body class="antialiased">
 
-<div class="container">
+<div class="container-fluid">
     <div class="p-4">
         @yield('main')
     </div>
