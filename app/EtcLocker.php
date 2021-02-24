@@ -25,7 +25,7 @@ class EtcLocker {
             ->setAvatar(env('BOT_AVATAR'))
             ->setUsername(env('BOT_NAME') )
             ->setTitle(ucfirst($Lock->user->nickname).'')
-            ->setDescription('Iniciou uma votação, mas abandou pelo caminho :(' )
+            ->setDescription('Iniciou uma votação, mas abandonou pelo caminho :(' )
             ->setColor( 0x0099ff);
 
         $i=1;
