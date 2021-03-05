@@ -212,7 +212,7 @@ class Setnexter extends Component
             'status'=>'waiting_confirmation'
         ]);
 
-        $text_votado = implode(',  ',$votado);
+        $text_votado = implode(' - ',$votado);
         $nick = $Entity->user->nickname;
 
 
@@ -232,14 +232,14 @@ class Setnexter extends Component
 
 
         if(count($this->historyRotation)==2){
-            $message->addField('Tentativa anterior', implode(', ',$this->historyRotation[0]));
+            $message->addField('Tentativa anterior', implode(' - ',$this->historyRotation[0]));
         }
         if(count($this->historyRotation)>=3){
             $copy = ($this->historyRotation);
             unset($copy[ count($copy) -1 ]);
             $i=1;
             foreach($copy as $line){
-                $message->addField('Tentativa #'.$i, implode(', ',$line));
+                $message->addField('Tentativa #'.$i, implode(' - ',$line));
                 $i++;
             }
         }
