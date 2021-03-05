@@ -22,7 +22,7 @@
                 @foreach($maps as $map)
                     <tr  >
                         <td class="align-middle">
-                            <h5 class="font-weight-bold "> <span class="fa fa-circle"></span> {{ $map->Name }}</h5>
+                            <h5 class="font-weight-bold "> <a href="{{ route('map_configure',[$map->id]) }}"> {{ $map->Name }} </a></h5>
                         </td>
                         <td>
                             @if($map->Ww2) <span class="badge badge-dark">WW2</span> @endif

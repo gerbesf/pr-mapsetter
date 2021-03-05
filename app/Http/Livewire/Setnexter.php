@@ -67,13 +67,14 @@ class Setnexter extends Component
     }
 
     public function checkButton(){
-        $locker = SetLocker::where('status','locked')->where('user_id','!=',session()->get('admin_id'))->count();
+        $locker = SetLocker::whereIn('status',['locked','waiting_confirmation'])->where('user_id','!=',session()->get('admin_id'))->count();
+
         if( $locker ){
             $this->locked = true;
-            $userActive = SetLocker::where('status','locked')->where('user_id','!=',session()->get('admin_id'))->first();
+            $userActive = SetLocker::whereIn('status',['locked','waiting_confirmation'])->where('user_id','!=',session()->get('admin_id'))->first();
             $this->locked_user = $userActive->user->nickname;
-            $this->locked_expires = Carbon::parse($userActive->created_at)->diffForHumans();
-            if(Carbon::parse($userActive->created_at)->isPast()){
+            $this->locked_expires = Carbon::parse($userActive->created_at)->addMinutes(8)->diffForHumans();
+            if(Carbon::parse($userActive->created_at)->addMinutes(8)->isPast()){
                 SetLocker::where('id',$userActive->id)->update([
                     'status' => 'expired'
                 ]);
@@ -81,6 +82,23 @@ class Setnexter extends Component
                 $EtcLocker->discordAbandouVote($userActive);
             }
         }
+
+        $lockerx = SetLocker::whereIn('status',['locked','waiting_confirmation'])->where('user_id','=',session()->get('admin_id'))->first();
+
+        if( isset($lockerx->status)){
+
+            $this->generateVotemap(false);
+
+            if($lockerx->status=="locked"){
+     #           return redirect();
+            }
+
+            if($lockerx->status=="waiting_confirmation"){
+
+            }
+
+        }
+
     }
 
     public function setMode( $mode , $sync = true ){
@@ -160,8 +178,8 @@ class Setnexter extends Component
             }
 
 
-            $this->minuted = Carbon::parse($entityLock->created_at)->addMinutes( 5 )->diffInMinutes();
-            $this->secondd = Carbon::parse($entityLock->created_at)->addMinutes( 5 )->subMinutes($this->minuted)->diffInSeconds();
+            $this->minuted = Carbon::parse($entityLock->created_at)->addMinutes(  env('VOTE_TIME') )->diffInMinutes();
+            $this->secondd = Carbon::parse($entityLock->created_at)->addMinutes( env('VOTE_TIME') )->subMinutes($this->minuted)->diffInSeconds();
 
             $this->loader = false;
 
@@ -181,6 +199,7 @@ class Setnexter extends Component
 
         $Entity = SetLocker::where('id',$this->lock_id)->first();
 
+       # dd();
         if(count($this->historyRotation)>=2){
             $votado = $this->historyRotation[ count($this->historyRotation)-1 ];
         }else{
@@ -190,7 +209,7 @@ class Setnexter extends Component
         SetLocker::where('id',$this->lock_id)->update([
             'votemap' => $votado,
             'rotations_history'=>$this->historyRotation,
-            'status'=>'complete'
+            'status'=>'waiting_confirmation'
         ]);
 
         $text_votado = implode(',  ',$votado);
@@ -234,7 +253,7 @@ class Setnexter extends Component
         $webhook = new DiscordWebhook( env('DSC_MAP') );
         $webhook->send($message);
 
-        return redirect('/');   // logout
+        return redirect('/confirmation?v='.$Entity->id);   // logout
 
     }
 

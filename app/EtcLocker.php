@@ -26,7 +26,7 @@ class EtcLocker {
             ->setUsername(env('BOT_NAME') )
             ->setTitle(ucfirst($Lock->user->nickname).'')
             ->setDescription('Iniciou uma votação, mas abandonou pelo caminho :(' )
-            ->setColor( 0x0099ff);
+            ->setColor( 15105570);
 
         $i=1;
         foreach($Lock->rotations_history as $line){
@@ -39,7 +39,7 @@ class EtcLocker {
     }
 
     public function checkHasLocked(){
-        $Lock = SetLocker::where('status','locked')->first();
+        $Lock = SetLocker::whereIn('status',['locked','waiting_confirmation'])->first();
         if( isset($Lock->id)){
 
             if(Carbon::parse($Lock->created_at)->addMinutes( 5 )->isPast()){

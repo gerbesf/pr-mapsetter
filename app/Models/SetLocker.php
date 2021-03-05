@@ -12,6 +12,7 @@ class SetLocker extends Model
         'user_id',
         'status',
         'votemap',
+        'winner',
         'rotations_history',
     ];
 

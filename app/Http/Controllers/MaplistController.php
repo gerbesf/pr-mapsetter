@@ -164,4 +164,12 @@ class MaplistController extends Controller
         ];
     }
 
+
+    public function details( $id ){
+        $Level = Levels::where('id',$id)->first();
+        return view('admin.map',[
+            'level'=>$Level
+        ]);
+    }
+
 }

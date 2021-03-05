@@ -46,17 +46,19 @@ trait AdminPages
         $this->populateServers();
 
         // Set a New Server
-        if($request->ip){
+        if($request->id){
             foreach($this->servers as $server){
 
+                Server::where([])->delete();
                 // Server Selected
-                if( $server->serverIp==$request->ip){
+                if( $server->serverId==$request->get('id')){
+                   # dd($server);
 
                     // Check is new
                     if( Server::count() == 0 ) {
 
                         Server::create([
-                            'ip' => $server->serverIp,
+                            'server_id' => $server->serverId,
                             'name' => $this->getServerName( $server),
                             'status' => 'active'
                         ]);
@@ -65,8 +67,8 @@ trait AdminPages
 
                         // Update current entity
                         $ServerEntity = Server::first();
-                        Server::where('id',$ServerEntity->id)->update([
-                            'ip' => $server->serverIp,
+                        Server::where('server_id',$ServerEntity->serverId)->update([
+                            'server_id' => $server->serverId,
                             'name' => $this->getServerName( $server),
                             'status' => 'active'
                         ]);

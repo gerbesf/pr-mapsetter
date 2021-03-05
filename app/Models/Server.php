@@ -10,7 +10,7 @@ class Server extends Model
     public $table = 'server';
 
     protected $fillable = [
-        'name', 'ip', 'status',
+        'name', 'server_id', 'status',
     ];
 
     public $timestamps = false;

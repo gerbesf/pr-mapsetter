@@ -15,7 +15,8 @@ class Server extends Migration
     {
         Schema::create('server', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->ipAddress('ip');
+            $table->ipAddress('ip')->nullable();
+            $table->string('server_id');
             $table->string('name');
             $table->string('status');
         });
