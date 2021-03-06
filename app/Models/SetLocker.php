@@ -29,4 +29,8 @@ class SetLocker extends Model
         return $this->hasOne('App\Models\Admin','id','user_id');
     }
 
+    public function map(){
+        return $this->hasOne('App\Models\Levels','Name','winner');
+    }
+
 }

@@ -26,7 +26,7 @@ trait AdminPages
         $server = Server::first();
 
         // All Maps
-        $Maps = Levels::get();
+        $Maps = Levels::where('Status','online')->get();
 
         // Render
         return view('admin.dashboard',[

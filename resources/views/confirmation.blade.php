@@ -1,13 +1,26 @@
 @extends('template')
 @section('main')
 
+    <h4>Votemap</h4>
+    <div class="stepwizard">
+        <div class="stepwizard-row setup-panel">
+            <div class="stepwizard-step col-xs-4">
+                <a class="btn btn-success btn-circle text-white">1</a>
+                <p><small>Config</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-4">
+                <a class="btn btn-success btn-circle text-white">2</a>
+                <p><small>Votemap</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-3">
+                <a class="btn btn-success btn-circle text-white" >3</a>
+                <p><small>Confirmation</small></p>
+            </div>
+        </div>
+    </div>
 
-    <h4>Winner</h4>
-    <p>Select the voted map</p>
 
-
-    <h1 class="text-center"><span id="spanRelogio">00:00</span></h1>
-    @livewire('counter',[$minuted,$secondd])
+    @livewire('counter',[request()->get('v')])
 
     <form action="{{ route('confirm') }}" method="post">
         <input type="hidden" value="{{ request()->get('v') }}" name="v">

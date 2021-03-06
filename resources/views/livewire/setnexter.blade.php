@@ -1,4 +1,23 @@
 <div>
+
+    <h4>Votemap</h4>
+    <div class="stepwizard">
+        <div class="stepwizard-row setup-panel">
+            <div class="stepwizard-step col-xs-4">
+                <a  class="btn text-white btn-success btn-circle">1</a>
+                <p><small>Config</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-4">
+                <a class="btn text-white @if($bread_nivel==2) btn-success @else  btn-default @endif btn-circle"  @if($bread_nivel<=2) disabled="disabled" @endif>2</a>
+                <p><small>Votemap</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-4">
+                <a class="btn btn-default btn-circle" disabled="disabled">3</a>
+                <p><small>Confirmation</small></p>
+            </div>
+        </div>
+    </div>
+
     <form>
 
         @if(!$sorteado)
@@ -147,7 +166,8 @@
                     </div>
                 </div>
 
-                    <h1 class="text-center"><span id="spanRelogio">00:00</span></h1>
+
+                    @livewire('counter',[$lock_id])
 
 {{--
                 <a href="#" class="float-righxt btn btn-sm btn-light" wire:click="setMode('{{ $gamemode }}', false)">  Back</a>--}}
@@ -308,7 +328,4 @@
 
     <span wire:loading> <div class="loading">Loading&#8230;</div></span>
 
-    @if($minuted)
-    @livewire('counter',[$minuted,$secondd])
-    @endif
 </div>

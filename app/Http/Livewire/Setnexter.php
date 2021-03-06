@@ -15,6 +15,7 @@ use Woeler\DiscordPhp\Webhook\DiscordWebhook;
 class Setnexter extends Component
 {
 
+    public $bread_nivel = 1 ;
     public $gamemode = "Aas";
     public $gamemap = 'All';
     public $loader = true;
@@ -67,14 +68,14 @@ class Setnexter extends Component
     }
 
     public function checkButton(){
-        $locker = SetLocker::whereIn('status',['locked','waiting_confirmation'])->where('user_id','!=',session()->get('admin_id'))->count();
 
-        if( $locker ){
+        $locker = SetLocker::whereIn('status',['locked','waiting_confirmation'])->where('user_id','!=',session()->get('admin_id'))->count();
+        if( $locker >=1 ){
             $this->locked = true;
             $userActive = SetLocker::whereIn('status',['locked','waiting_confirmation'])->where('user_id','!=',session()->get('admin_id'))->first();
             $this->locked_user = $userActive->user->nickname;
-            $this->locked_expires = Carbon::parse($userActive->created_at)->addMinutes(8)->diffForHumans();
-            if(Carbon::parse($userActive->created_at)->addMinutes(8)->isPast()){
+            $this->locked_expires = Carbon::createFromFormat('Y-m-d H:i:s',$userActive->created_at)->addMinutes( env('VOTE_TIME'))->diffForHumans();
+            if(Carbon::createFromFormat('Y-m-d H:i:s',$userActive->created_at)->addMinutes( env('VOTE_TIME'))->isPast()){
                 SetLocker::where('id',$userActive->id)->update([
                     'status' => 'expired'
                 ]);
@@ -87,6 +88,7 @@ class Setnexter extends Component
 
         if( isset($lockerx->status)){
 
+            $this->populateMode();
             $this->generateVotemap(false);
 
             if($lockerx->status=="locked"){
@@ -132,6 +134,7 @@ class Setnexter extends Component
 
     public function generateVotemap( $tryAgain = false ){
 
+        $this->bread_nivel = 2;
         if(!session()->has('admin_logged')){
             if( !session()->has('master_logged')){
                 return redirect('/login');
@@ -177,9 +180,9 @@ class Setnexter extends Component
                 $this->votemap_text = $votemap_text;
             }
 
-
-            $this->minuted = Carbon::parse($entityLock->created_at)->addMinutes(  env('VOTE_TIME') )->diffInMinutes();
-            $this->secondd = Carbon::parse($entityLock->created_at)->addMinutes( env('VOTE_TIME') )->subMinutes($this->minuted)->diffInSeconds();
+            //
+            $this->minuted = Carbon::parse($entityLock->created_at)->addMinutes( env('VOTE_TIME') )->diffInMinutes();
+            $this->secondd = Carbon::parse($entityLock->created_at)->addMinutes( env('VOTE_TIME') )->subMinutes( $this->minuted )->diffInSeconds();
 
             $this->loader = false;
 
@@ -221,13 +224,12 @@ class Setnexter extends Component
         $this->gamemap = 'All';
          */
         $message = (new DiscordEmbedMessage())
-            ->setContent('**'.ucfirst($nick).'** realizou um votemap')
+            ->setContent('**'.ucfirst($nick).'** está realizando um votemap **'.$this->gamemode.'**')
             ->setAvatar(env('BOT_AVATAR'))
             ->setUsername(env('BOT_NAME') )
-
             ->setTitle($text_votado)
          #   ->setDescription( $text_votado)
-            ->setColor( 3066993);
+            ->setColor( 15844367);
 
 
 

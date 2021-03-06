@@ -26,7 +26,7 @@ class EtcLocker {
             ->setUsername(env('BOT_NAME') )
             ->setTitle(ucfirst($Lock->user->nickname).'')
             ->setDescription('Iniciou uma votação, mas abandonou pelo caminho :(' )
-            ->setColor( 15105570);
+            ->setColor( 10682368);
 
         $i=1;
         foreach($Lock->rotations_history as $line){

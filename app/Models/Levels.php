@@ -11,7 +11,7 @@ class Levels extends Model
 
     protected $fillable = [
         'Name','Key', 'Resolution', 'Size', 'Color', 'Image', 'Layouts',
-        'Ww2','Aas','Vehicle','Insurgency','Skirmish','Cnc','Vietnam','Slug'
+        'Ww2','Aas','Vehicle','Insurgency','Skirmish','Cnc','Vietnam','Slug','Status'
     ];
 
     protected $casts = [

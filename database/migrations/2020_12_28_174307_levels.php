@@ -30,6 +30,7 @@ class Levels extends Migration
             $table->boolean('Skirmish')->nullable();
             $table->boolean('Cnc')->nullable();
             $table->boolean('Vietnam')->nullable();
+            $table->string('Status')->nullable();
 
         });
     }

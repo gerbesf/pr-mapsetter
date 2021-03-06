@@ -126,21 +126,19 @@ class AdminController extends Controller
 
         $lock =SetLocker::where('id',$request->get('v'))->first();
 
-
-        $minuted = Carbon::parse($lock->created_at)->addMinutes(  env('VOTE_TIME') )->diffInMinutes();
-        $secondd = Carbon::parse($lock->created_at)->addMinutes( env('VOTE_TIME') )->subMinutes( $minuted )->diffInSeconds();
-
-
         return view('confirmation',[
             'lock' => $lock,
-            'minuted'=>$minuted,
-            'secondd'=>$secondd,
+            'id'=>$request->get('v'),
         ]);
 
     }
 
     public function confirmMap( Request $request ){
         $Entity = SetLocker::where('id',$request->get('v'))->first();
+
+     #   dd($Entity);
+
+        $Level = Levels::select('Name','Slug')->where('Name',$request->get('winner'))->first();
 
         SetLocker::where('id',$request->get('v'))->update([
             'winner' => $request->get('winner'),
@@ -149,14 +147,13 @@ class AdminController extends Controller
 
         $nick = $Entity->user->nickname;
         $message = (new DiscordEmbedMessage())
-            ->setContent('**'.ucfirst($nick).'** confirmou o votemap como: '.$request->get('winner'))
+            #->setContent()
             ->setAvatar(env('BOT_AVATAR'))
             ->setUsername(env('BOT_NAME') )
-
+            ->setImage('https://www.realitymod.com/mapgallery/images/maps/'.\App\Helper::getImageKeyName( $Level->Slug ).'/banner.jpg')
             ->setTitle($request->get('winner'))
-            #   ->setDescription( $text_votado)
+               ->setDescription( '**'.ucfirst($nick).'** confirmou o votemap!')
             ->setColor( 3066993);
-
 
         $webhook = new DiscordWebhook( env('DSC_MAP') );
         $webhook->send($message);

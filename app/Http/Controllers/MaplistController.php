@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Helpers\Generator;
 use App\Http\Controllers\Helpers\Prspy;
 use App\Models\Admin;
+use App\Models\Filters;
 use App\Models\Levels;
 use App\Models\Server;
 use Illuminate\Http\Request;
@@ -24,17 +25,22 @@ class MaplistController extends Controller
 
     public function index( Request $request ){
 
+        $Filters = Filters::get();
         #$Maps = Levels::whereJsonContains('Layouts', ['Key' => 'gpm_skirmish','Value'=> 16]) ->get();
-        $Maps = Levels::get();
+        $Maps = Levels::where('Status','online')->get();
 
         return view('admin.maplist',[
             'menu'=>'actions',
-            'maps'=>$Maps
+            'maps'=>$Maps,
+            'filters'=>$Filters,
         ]);
     }
 
     public function update(){
 
+        Levels::where([])->update([
+            'Status'=>'offline'
+        ]);
         $lista = json_decode(file_get_contents('https://www.realitymod.com/mapgallery/json/levels.json'));
         foreach($lista as $item){
            # print_r($item);
@@ -51,11 +57,12 @@ class MaplistController extends Controller
             $array_object['Slug'] = str_replace(['-','_'],'',$array_object['Image']);
             $check = Levels::where('Name',$array_object['Name'])->count();
 
-          #  $datas = $this->configureSizes( $attritutes['Layouts']);
-            #dd($datas);
+            #$datas = $this->configureSizes( $attritutes['Layouts']);
+           # dd($datas);
 
            # dd($array_object);
 
+            $array_object['Status']='online';
             if($check==0){
                 Levels::create( $array_object );
             }else{
@@ -65,7 +72,6 @@ class MaplistController extends Controller
 
         return redirect('/admin');
     }
-
 
     // 0_40|41_60|61_80|81_100
     // inf |
