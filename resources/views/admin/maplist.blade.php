@@ -1,13 +1,14 @@
 @extends('admin.template')
 @section('main')
 
+    <h4 class="py-4"> <span class="fa fa-cog"></span> Maplist - Settings</h4>
+
     <div class="card ">
 
-        <div class="card-header">Map list</div>
 
         <div class=" ">
-            <table class="table shadow-sm mb-0 bg-white table-hover " >
-                <thead class="thead-light">
+            <table class="table shadow-sm mb-0  table-hover " >
+                <thead class="thead-dark">
                 <tr>
                     <th>TILE</th>
                     <th>MAP</th>
@@ -26,7 +27,7 @@
                     <tr  >
                         {{--<a href="{{ route('map_configure',[$map->id]) }}">  </a>--}}
                         <td  class="align-middle">
-                            <img style="max-height: 260px; width: auto!important;" src="https://www.realitymod.com/mapgallery/images/maps/{{ \App\Helper::getImageKeyName( $map->Slug ) }}/tile.jpg" class=" rounded">
+                            <img style="max-height: 90px; width: auto!important;" src="https://www.realitymod.com/mapgallery/images/maps/{{ \App\Helper::getImageKeyName( $map->Slug ) }}/tile.jpg" class=" rounded">
                         </td>
                         <td class="align-middle">
                             <div class="font-weight-bold ">{{ $map->Name }}</div>
@@ -35,10 +36,10 @@
                             @if($map->Ww2) <span class="badge badge-dark">WW2</span> @endif
                             @if($map->Vietnam) <span class="badge badge-danger">Vietnam</span> @endif
                         </td>
-                        <td class="align-middle">{{ substr($map->Resolution,0,1) }}KM</td>
-                        <td>
+                        <td class="align-middle">{{ $map->Size }}KM</td>
+                        <td class="align-middle">
 
-                            <div class="bg-dark p-3 rounded text-white text-uppercase" style=" max-height: 800px; overflow-y: scroll">
+                            <div>
 
                                {{-- @if($map->Skirmish)
                                     <div class="border-bottom py-3">
@@ -54,7 +55,7 @@
                                     </div>
                                 @endif--}}
                                 @if($map->Aas)
-                                        <div class="border-bottom py-3">
+                                        <div class="py-1">
                                         @if( isset($map->Layouts['cq']))
                                                 <div title="AAS" class=" text-nowrap">
                                                     <div class=" "> AAS </div>
@@ -68,7 +69,7 @@
                                     </div>
                                 @endif
                                 @if($map->Insurgency)
-                                    <div class="border-bottom py-3">
+                                    <div class="py-1">
                                         @if( isset($map->Layouts['insurgency']))
                                                 <div title="AAS" class=" text-nowrap">
                                                     <div class=" "> Insurgency </div>

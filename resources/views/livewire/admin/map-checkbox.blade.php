@@ -15,8 +15,8 @@
     </div>
 --}}
 
-    <label class="d-inline-block text-center rounded  bg-white  border m-1 p-1 ">
-        <input type="checkbox" wire:model="iai" value="1"> <span class="font-weight-bold text-dark">{{ $size  }}</span>
+    <label class="d-inline-block text-center rounded  bg-dark   m-1 py-1 px-2 ">
+        <input type="checkbox" wire:model="iai" value="1"> <span class="font-weight-bold @if($iai) text-success @else text-white-50 @endif">{{ $size  }}</span>
     </label>
 
 </span>

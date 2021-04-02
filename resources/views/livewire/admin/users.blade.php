@@ -3,13 +3,13 @@
 
     @if(!$form)
         <div class="pb-2">
-            <button class="btn btn-sm btn-dark" wire:click="createForm">Create</button>
+            <button class="btn  btn-dark" wire:click="createForm">Add new Admin</button>
         </div>
     @endif
     @if($form)
 
         <div class="pb-2">
-            <button class="btn btn-sm btn-dark" wire:click="backTable">Back</button>
+            <button class="btn  btn-dark" wire:click="backTable">Back</button>
         </div>
 
         <div class="card ">
@@ -67,10 +67,9 @@
 
 
         <div class="card ">
-            <div class="card-header">Admin users</div>
             <div class="">
-                <table class="table shadow-sm mb-0 bg-white  table-hover" >
-                    <thead class="thead-light">
+                <table class="table shadow-sm mb-0 table-hover" >
+                    <thead class="thead-dark">
                     <tr>
                         <th>Nickname</th>
                         <th>Username</th>
@@ -81,7 +80,7 @@
                     </thead>
                     @foreach($users as $user)
                         <tr>
-                            <td>{{ $user->nickname }}</td>
+                            <td class="font-weight-bold lead">{{ $user->nickname }}</td>
                             <td>{{ $user->username }}</td>
                             <td>
                                 @if($user->level=="M")

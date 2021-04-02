@@ -1,6 +1,8 @@
 @extends('admin.template')
 @section('main')
 
+    <h4 class="py-4"> <span class="fa fa-cog"></span> Maintence</h4>
+
 
     <div class="card">
         <div class="card-header">Project Reality Server</div>
