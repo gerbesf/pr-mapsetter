@@ -1,6 +1,9 @@
-@extends('admin.template')
+@extends('admin.template',[
+    'login'=>true
+])
 @section('main')
 
+    <div style="padding: 20vh 0">
     <div class="row">
         <div class="col-md-6">
 
@@ -9,8 +12,6 @@
             @endforeach
 
             <div class="">
-
-                <h3>Admin Login</h3>
 
                 <form action="/auth" method="post">
                     @csrf
@@ -21,13 +22,14 @@
                         <input type="password" name="password" class="form-control" placeholder="Password">
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-dark">Log in</button>
+                        <button type="submit" class="btn btn-dark btn-block">Log in</button>
                     </div>
                 </form>
 
             </div>
 
         </div>
+    </div>
     </div>
 
 @endsection
