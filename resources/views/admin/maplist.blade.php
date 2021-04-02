@@ -81,7 +81,7 @@
                                     </div>
                                 @endif
 
-                                @if($map->Cnc)
+                               {{-- @if($map->Cnc)
                                     <div class="border-bottom py-3">
                                         @if( isset($map->Layouts['cnc']))
                                                 <div title="AAS" class=" text-nowrap">
@@ -93,9 +93,9 @@
 
                                         @endif
                                     </div>
-                                @endif
+                                @endif--}}
 
-                                @if($map->Vehicle)
+                                {{--@if($map->Vehicle)
                                     <div class="border-bottom py-3">
                                         @if( isset($map->Layouts['vehicles']))
                                                 <div title="AAS" class=" text-nowrap">
@@ -107,7 +107,7 @@
 
                                         @endif
                                     </div>
-                                @endif
+                                @endif--}}
                             </div>
 
                         </td>

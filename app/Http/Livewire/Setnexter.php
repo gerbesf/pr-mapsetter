@@ -287,14 +287,17 @@ class Setnexter extends Component
         if($this->players_size){
 
 
-            $Index = LevelsPlayers::where('size',$this->players_size)->where('game_mode',$this->gamemode)->get();
+            if( in_array($this->gamemode,['Skirmish','Cnc','Vehicle'])){
+                $avaliable_maps = Levels::where($this->gamemode,true)->get()->toArray();
+            }else{
+                $Index = LevelsPlayers::where('size',$this->players_size)->where('game_mode',$this->gamemode)->get();
+                $mapsIndex = collect($Index)->unique('map_key')->map(function ($obj){
+                    return $obj->map_key;
+                })->toArray();
+                $avaliable_maps = Levels::whereIn('Key',$mapsIndex)->get()->toArray();
+            }
 
-            $mapsIndex = collect($Index)->unique('map_key')->map(function ($obj){
-                return $obj->map_key;
-            })->toArray();
-
-            $avaliable_maps = Levels::whereIn('Key',$mapsIndex)->get()->toArray();
-            #$avaliable_maps = Levels::where($this->gamemode,true)->where('Size','<=',$this->mapsize)->get()->toArray();
+            #
 
        #     dd( $avaliable_maps,$Index );
             #dd($avaliable_maps);
