@@ -69,6 +69,7 @@ class MaplistController extends Controller
                 Levels::where('Name',$array_object['Name'])->update( $array_object );
             }
         }
+        Levels::where(['Status'=>'offline'])->delete();
 
         return redirect('/admin');
     }
