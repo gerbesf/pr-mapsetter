@@ -32,7 +32,7 @@
                         <td class="align-middle">
                             <div class="font-weight-bold ">{{ $map->Name }}</div>
                         </td>
-                        <td>
+                        <td class="align-middle">
                             @if($map->Ww2) <span class="badge badge-dark">WW2</span> @endif
                             @if($map->Vietnam) <span class="badge badge-danger">Vietnam</span> @endif
                         </td>
