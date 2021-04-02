@@ -87,14 +87,13 @@ class Setnexter extends Component
         }
         $lockerx = SetLocker::whereIn('status',['locked','waiting_confirmation'])->where('user_id','=',session()->get('admin_id'))->first();
         if( isset($lockerx->status)){
+            $this->populateMode();
             if($lockerx->status=="locked"){
             }
             if($lockerx->status=="waiting_confirmation"){
               #  dd($lockerx);
-                return redirect('/confirmation?v=1');
+               # return redirect('/confirmation?v=1');
             }
-            dd($lockerx);
-            $this->populateMode();
             $this->generateVotemap(false);
         }
 

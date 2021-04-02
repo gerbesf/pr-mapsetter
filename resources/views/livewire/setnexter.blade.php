@@ -1,30 +1,14 @@
 <div>
 
-    <h4>Votemap</h4>
-    <div class="stepwizard">
-        <div class="stepwizard-row setup-panel">
-            <div class="stepwizard-step col-xs-4">
-                <a  class="btn text-white btn-success btn-circle">1</a>
-                <p><small>Config</small></p>
-            </div>
-            <div class="stepwizard-step col-xs-4">
-                <a class="btn text-white @if($bread_nivel==2) btn-success @else  btn-default @endif btn-circle"  @if($bread_nivel<=2) disabled="disabled" @endif>2</a>
-                <p><small>Votemap</small></p>
-            </div>
-            <div class="stepwizard-step col-xs-4">
-                <a class="btn btn-default btn-circle" disabled="disabled">3</a>
-                <p><small>Confirmation</small></p>
-            </div>
-        </div>
+    <div class="float-right">
+        <a href="/history" class="btn btn-sm btn-light">History</a>
     </div>
+    <h4>Votemap</h4>
 
     <form>
 
         @if(!$sorteado)
         <div class="card">
-            <div class="card-header">
-                Votação de mapas {{ env('APP_NAME') }}
-            </div>
             <div class="card-body">
 
                     <div class=" rounded p-2 py-3">
@@ -243,7 +227,7 @@
                     @else
 
                     <div class="pb-2 col-lg-4 py-4 m-auto">
-                        <button class="btn btn-block btn-success" type="button" wire:click="generateVotemap()"><h2 class="font-weight-bold m-0">GERADOR</h2> ({{ $this->totals }} maps avaliable)</button>
+                        <button class="btn btn-block btn-success" type="button" wire:click="generateVotemap()"><h2 class="font-weight-bold m-0">Start Voting</h2> ({{ $this->totals }} maps avaliable)</button>
                     </div>
 
                     @endif
@@ -253,7 +237,6 @@
                 @endif
 
 
-                <h4 class="pt-4 pb-2">Mapas disponíveis</h4>
                     <div class="row">
                         @if(is_array($avaliable_maps) && @count($avaliable_maps))
                         @foreach($avaliable_maps as $item)
@@ -284,7 +267,6 @@
                         @endforeach
                         @endif
                     </div>
-                <h4 class="pt-4 pb-2">Indisponíveis</h4>
                     <div class="row">
                         @if(is_array($avaliable_maps) && @count($avaliable_maps))
                         @foreach($avaliable_maps as $item)

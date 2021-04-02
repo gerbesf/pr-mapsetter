@@ -1,12 +1,10 @@
 @extends('template')
 @section('main')
 
-
-    <div class="text-center">
+    <div class="float-right">
         <a href="/" class="btn btn-sm btn-light">Back</a>
     </div>
-    <h4 class="text-center font-weight-bold text-uppercase mb-0 py-2">{{ env('APP_NAME') }} - History</h4>
-
+    <h4>History</h4>
 
     <table class="table bg-white border table-hover table-sm" style="width: 100%">
         <thead  class="thead-light">
