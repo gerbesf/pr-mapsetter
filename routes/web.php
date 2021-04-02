@@ -26,7 +26,7 @@ Route::get('/ops',function (){
 
 // Master Panel
 Route::group([
-   # 'middleware'=>['master_admin'],
+    #'middleware'=>['admin'],
     'prefix' => 'admin',
     'namespace'=>'\App\Http\Controllers'
 ],function(){

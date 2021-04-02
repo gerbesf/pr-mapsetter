@@ -2,22 +2,6 @@
 @section('main')
 
     <h4>Votemap</h4>
-    <div class="stepwizard">
-        <div class="stepwizard-row setup-panel">
-            <div class="stepwizard-step col-xs-4">
-                <a class="btn btn-success btn-circle text-white">1</a>
-                <p><small>Config</small></p>
-            </div>
-            <div class="stepwizard-step col-xs-4">
-                <a class="btn btn-success btn-circle text-white">2</a>
-                <p><small>Votemap</small></p>
-            </div>
-            <div class="stepwizard-step col-xs-3">
-                <a class="btn btn-success btn-circle text-white" >3</a>
-                <p><small>Confirmation</small></p>
-            </div>
-        </div>
-    </div>
 
 
     @livewire('counter',[request()->get('v')])

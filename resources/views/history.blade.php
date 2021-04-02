@@ -6,8 +6,8 @@
     </div>
     <h4>History</h4>
 
-    <table class="table bg-white border table-hover table-sm" style="width: 100%">
-        <thead  class="thead-light">
+    <table class="table table-borderless border table-hover table-sm" style="width: 100%">
+        <thead  class="thead-dark">
         <tr>
             <th>Nome</th>
             <th>Data</th>

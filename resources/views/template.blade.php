@@ -13,7 +13,6 @@
     <style>
         body {
             font-family: 'Nunito';
-            background: #f9f9f9
         }
         /* Absolute Center Spinner */
         .loading {
@@ -139,9 +138,9 @@
     </style>
     @livewireStyles
 </head>
-<body class="antialiased">
+<body>
 
-<div class="container-fluid">
+<div class="container">
     <div class="p-4">
         @yield('main')
     </div>

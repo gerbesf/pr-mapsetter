@@ -2,6 +2,9 @@
 
     <div class="float-right">
         <a href="/history" class="btn btn-sm btn-light">History</a>
+        @if(session()->has('master_logged'))
+        <a href="/admin" class="btn btn-sm btn-light">Admin</a>
+        @endif
     </div>
     <h4>Votemap</h4>
 
@@ -9,7 +12,7 @@
 
         @if(!$sorteado)
         <div class="card">
-            <div class="card-body">
+            <div class="card-body" style="font-size: 15px">
 
                     <div class=" rounded p-2 py-3">
                         <div class="rounded px-2 text-uppercase text-muted border-bottom">Layout</div>
@@ -241,14 +244,23 @@
                         @if(is_array($avaliable_maps) && @count($avaliable_maps))
                         @foreach($avaliable_maps as $item)
                             @if($item['Avaliable'])
-                                <div class="col-lg-3 col-md-4 col-xs-6">
-                                    <div class="card card-body mb-2 @if($item['Avaliable']) border-success @endif" >
+                                <div class="col-lg-4 col-md-4 col-xs-6">
+
+                                    <div class="card  mb-2 @if($item['Avaliable']) -success @endif" >
+                                        <div class=" d-md-none">
+                                            <img src="https://www.realitymod.com/mapgallery/images/maps/{{ \App\Helper::getImageKeyName( $item['Slug'] ) }}/tile.jpg" class="w-100 rounded">
+                                        </div>
+
+                                        <div class="d-none d-md-inline-block">
+                                            <img src="https://www.realitymod.com/mapgallery/images/maps/{{ \App\Helper::getImageKeyName( $item['Slug'] ) }}/banner.jpg" class=" w-100 rounded">
+                                        </div>
+                                        <div class="px-4 py-2">
                                         <div style=""><b>{{ $item['Name'] }}</b> <span class="float-right small"> {{ $item['Size'] }}KM</span> </div>
-                                        <div class="small">
+                                      {{--  <div class="small">
                                             @foreach($item['Layouts'][$index_mode] as $size=>$name)
                                                 <span class="badge badge-light">{{ $name  }}</span>
                                             @endforeach
-                                        </div>
+                                        </div>--}}
                                         <div>
                                             {{--{{ $item['Slug'] }}--}}
                                             @if( isset($item['motive']))
@@ -261,6 +273,7 @@
                                                 @endif
                                             @endif
                                         </div>
+                                        </div>
                                     </div>
                                 </div>
                             @endif
@@ -271,29 +284,38 @@
                         @if(is_array($avaliable_maps) && @count($avaliable_maps))
                         @foreach($avaliable_maps as $item)
                             @if(!$item['Avaliable'])
-                                <div class="col-lg-3 col-md-4 col-xs-6">
-                                    <div class="card card-body mb-2 @if($item['Avaliable']) border-success @endif" >
-                                        <div style=""><b>{{ $item['Name'] }}</b> <span class="float-right small"> {{ $item['Size'] }}KM</span> </div>
-                                        <div class="small">
-                                            @foreach($item['Layouts'][$index_mode] as $size=>$name)
-                                                <span class="badge badge-light">{{ $name  }}</span>
-                                            @endforeach
-                                        </div>
-                                        <div>
-                                            {{--{{ $item['Slug'] }}--}}
+                                    <div class="col-lg-4 col-md-4 col-xs-6">
 
-                                            @if( isset($item['motive']))
-                                                <b class="text-danger">Unavaliable</b> <small>{{ $item['motive'] }}</small>
-                                            @else
-                                                @if(!$item['Avaliable'])
-                                                    <b class="text-danger">Unavaliable</b> <small> played {{ $item['LatestGame'] }}</small>
-                                                @else
-                                                    <b class="text-success">Avaliable</b>
-                                                @endif
-                                            @endif
+                                        <div class="card  mb-2 @if($item['Avaliable']) -success @endif" >
+                                            <div class=" d-md-none">
+                                                <img src="https://www.realitymod.com/mapgallery/images/maps/{{ \App\Helper::getImageKeyName( $item['Slug'] ) }}/tile.jpg" class="w-100 rounded">
+                                            </div>
+
+                                            <div class="d-none d-md-inline-block">
+                                                <img src="https://www.realitymod.com/mapgallery/images/maps/{{ \App\Helper::getImageKeyName( $item['Slug'] ) }}/banner.jpg" class=" w-100 rounded">
+                                            </div>
+                                            <div class="px-4 py-2">
+                                                <div style=""><b>{{ $item['Name'] }}</b> <span class="float-right small"> {{ $item['Size'] }}KM</span> </div>
+                                                {{--  <div class="small">
+                                                      @foreach($item['Layouts'][$index_mode] as $size=>$name)
+                                                          <span class="badge badge-light">{{ $name  }}</span>
+                                                      @endforeach
+                                                  </div>--}}
+                                                <div>
+                                                    {{--{{ $item['Slug'] }}--}}
+                                                    @if( isset($item['motive']))
+                                                        <b class="text-danger">Unavaliable</b> <small>{{ $item['motive'] }}</small>
+                                                    @else
+                                                        @if(!$item['Avaliable'])
+                                                            <b class="text-danger">Unavaliable</b> <small> played {{ $item['LatestGame'] }}</small>
+                                                        @else
+                                                            <b class="text-success">Avaliable</b>
+                                                        @endif
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                             @endif
                         @endforeach
                         @endif
