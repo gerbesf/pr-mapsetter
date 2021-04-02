@@ -17,10 +17,10 @@ class Filters extends Seeder
             'name' => 'Players',
             'settings' => array([
                 'name' => '0 - 20',
-                'code' => '0_20'
+                'code' => '0_30'
             ],[
-                'name' => '21 - 40',
-                'code' => '21_40'
+                'name' => '31 - 40',
+                'code' => '31_40'
             ],[
                 'name' => '41 - 60',
                 'code' => '41_60'
@@ -33,7 +33,12 @@ class Filters extends Seeder
             ])
         ];
 
-        \App\Models\Filters::firstOrCreate($scope);
+        if(\App\Models\Filters::count()==0){
+            \App\Models\Filters::firstOrCreate($scope);
+        }else{
+            $get = \App\Models\Filters::first();
+            \App\Models\Filters::where('id',$get->id)->update($scope);
+        }
 
     }
 }

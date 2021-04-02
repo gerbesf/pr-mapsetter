@@ -40,7 +40,7 @@
 
                             <div class="bg-dark p-3 rounded text-white text-uppercase" style=" max-height: 800px; overflow-y: scroll">
 
-                                @if($map->Skirmish)
+                               {{-- @if($map->Skirmish)
                                     <div class="border-bottom py-3">
                                         @if( isset($map->Layouts['skirmish']))
                                                 <div title="Skirmish" class=" text-nowrap">
@@ -52,7 +52,7 @@
 
                                         @endif
                                     </div>
-                                @endif
+                                @endif--}}
                                 @if($map->Aas)
                                         <div class="border-bottom py-3">
                                         @if( isset($map->Layouts['cq']))
