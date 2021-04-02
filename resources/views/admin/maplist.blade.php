@@ -26,7 +26,7 @@
                     <tr  >
                         {{--<a href="{{ route('map_configure',[$map->id]) }}">  </a>--}}
                         <td  class="align-middle">
-                            <img style="max-height: 60px; width: auto!important;" src="https://www.realitymod.com/mapgallery/images/maps/{{ \App\Helper::getImageKeyName( $map->Slug ) }}/tile.jpg" class=" rounded">
+                            <img style="max-height: 260px; width: auto!important;" src="https://www.realitymod.com/mapgallery/images/maps/{{ \App\Helper::getImageKeyName( $map->Slug ) }}/tile.jpg" class=" rounded">
                         </td>
                         <td class="align-middle">
                             <div class="font-weight-bold ">{{ $map->Name }}</div>
@@ -38,21 +38,17 @@
                         <td class="align-middle">{{ substr($map->Resolution,0,1) }}KM</td>
                         <td>
 
-                            <div class="bg-white p-3 rounded border" style=" max-height: 600px; overflow-y: scroll">
+                            <div class="bg-dark p-3 rounded text-white text-uppercase" style=" max-height: 800px; overflow-y: scroll">
 
                                 @if($map->Skirmish)
                                     <div class="border-bottom py-3">
                                         @if( isset($map->Layouts['skirmish']))
-                                            @foreach($map->Layouts['skirmish'] as $tag)
                                                 <div title="Skirmish" class=" text-nowrap">
-                                                    <div class=" text-muted"> Skirmish - <b>{{ $tag }}</b></div>
+                                                    <div class=" t"> Skirmish </div>
                                                     @foreach($filters[0]->settings as $sett)
-                                                        <label class="d-inline-block text-center rounded  bg-white  border m-1 p-1 ">
-                                                            <input type="checkbox" value="{{ $sett['code'] }}"> <span>{{ $sett['name'] }}</span>
-                                                        </label>
+                                                        @livewire('admin.map-checkbox',[$map->Key,$sett['code'],'Skirmish' ])
                                                     @endforeach
                                                 </div>
-                                            @endforeach
 
                                         @endif
                                     </div>
@@ -60,16 +56,13 @@
                                 @if($map->Aas)
                                         <div class="border-bottom py-3">
                                         @if( isset($map->Layouts['cq']))
-                                            @foreach($map->Layouts['cq'] as $tag)
                                                 <div title="AAS" class=" text-nowrap">
-                                                    <div class=" text-muted"> AAS - <b>{{ $tag }}</b></div>
+                                                    <div class=" "> AAS </div>
                                                     @foreach($filters[0]->settings as $sett)
-                                                        <label class="d-inline-block text-center rounded  bg-white  border m-1 p-1 ">
-                                                            <input type="checkbox" value="{{ $sett['code'] }}"> <span>{{ $sett['name'] }}</span>
-                                                        </label>
+                                                        @livewire('admin.map-checkbox',[$map->Key,$sett['code'],'Aas' ])
                                                     @endforeach
                                                 </div>
-                                            @endforeach
+
 
                                         @endif
                                     </div>
@@ -77,16 +70,12 @@
                                 @if($map->Insurgency)
                                     <div class="border-bottom py-3">
                                         @if( isset($map->Layouts['insurgency']))
-                                            @foreach($map->Layouts['insurgency'] as $tag)
                                                 <div title="AAS" class=" text-nowrap">
-                                                    <div class=" text-muted"> Insurgency - <b>{{ $tag }}</b></div>
+                                                    <div class=" "> Insurgency </div>
                                                     @foreach($filters[0]->settings as $sett)
-                                                        <label class="d-inline-block text-center rounded  bg-white  border m-1 p-1 ">
-                                                            <input type="checkbox" value="{{ $sett['code'] }}"> <span>{{ $sett['name'] }}</span>
-                                                        </label>
+                                                        @livewire('admin.map-checkbox',[$map->Key,$sett['code'],'Insurgency' ])
                                                     @endforeach
                                                 </div>
-                                            @endforeach
 
                                         @endif
                                     </div>
@@ -95,16 +84,12 @@
                                 @if($map->Cnc)
                                     <div class="border-bottom py-3">
                                         @if( isset($map->Layouts['cnc']))
-                                            @foreach($map->Layouts['cnc'] as $tag)
                                                 <div title="AAS" class=" text-nowrap">
-                                                    <div class=" text-muted"> CNC - <b>{{ $tag }}</b></div>
+                                                    <div class=" "> CNC </div>
                                                     @foreach($filters[0]->settings as $sett)
-                                                        <label class="d-inline-block text-center rounded  bg-white  border m-1 p-1 ">
-                                                            <input type="checkbox" value="{{ $sett['code'] }}"> <span>{{ $sett['name'] }}</span>
-                                                        </label>
+                                                        @livewire('admin.map-checkbox',[$map->Key,$sett['code'],'Cnc' ])
                                                     @endforeach
                                                 </div>
-                                            @endforeach
 
                                         @endif
                                     </div>
@@ -113,16 +98,12 @@
                                 @if($map->Vehicle)
                                     <div class="border-bottom py-3">
                                         @if( isset($map->Layouts['vehicles']))
-                                            @foreach($map->Layouts['vehicles'] as $tag)
                                                 <div title="AAS" class=" text-nowrap">
-                                                    <div class=" text-muted"> Vehicle - <b>{{ $tag }}</b></div>
+                                                    <div class=" "> Vehicle</div>
                                                     @foreach($filters[0]->settings as $sett)
-                                                        <label class="d-inline-block text-center rounded  bg-white  border m-1 p-1 ">
-                                                            <input type="checkbox" value="{{ $sett['code'] }}"><span>{{ $sett['name'] }}</span>
-                                                        </label>
+                                                        @livewire('admin.map-checkbox',[$map->Key,$sett['code'],'Vehicle' ])
                                                     @endforeach
                                                 </div>
-                                            @endforeach
 
                                         @endif
                                     </div>

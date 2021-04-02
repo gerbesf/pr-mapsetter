@@ -120,7 +120,16 @@
                             <div class="rounded px-2 text-uppercase text-muted border-bottom">Players</div>
 
                             <div class="row pb-0 m-2">
-                                <div class="col-md-4">
+
+                                @foreach($players_sizes as $size)
+                                    <div class="col-md-2">
+                                        <label class="form-check pb-0 mb-0" wire:click="setPlayerSize('{{ $size['code'] }}')">
+                                            <input class="form-check-input" wire:model="players_size" name="players_size" type="radio" value="{{ $size['code'] }}">
+                                            <span class="form-check-label font-weight-bold"> {{ str_replace('_',' até ',$size['code']) }} </span>
+                                        </label>
+                                    </div>
+                                @endforeach
+                              {{--  <div class="col-md-4">
                                     <label class="form-check pb-0 mb-0" wire:click="setPlayerSize('low')">
                                         <input class="form-check-input" wire:model="players_size" name="players_size" type="radio" value="low">
                                         <span class="form-check-label"> Low </span>
@@ -137,7 +146,7 @@
                                         <input class="form-check-input" wire:model="players_size" name="players_size" type="radio" value="high">
                                         <span class="form-check-label"> High </span>
                                     </label>
-                                </div>
+                                </div>--}}
                             </div>
                             {{--   </div>
                            </div>--}}
@@ -259,14 +268,13 @@
                                         </div>
                                         <div>
                                             {{--{{ $item['Slug'] }}--}}
-
                                             @if( isset($item['motive']))
-                                                <b class="text-danger">Unavaliable</b> <small>{{ $item['motive'] }}</small>
+                                                <b class="text-danger">Indisponível</b> <small>{{ $item['motive'] }}</small>
                                             @else
                                                 @if(!$item['Avaliable'])
-                                                    <b class="text-danger">Unavaliable</b> <small> played {{ $item['LatestGame'] }}</small>
+                                                    <b class="text-danger">Indisponível</b> <small> played {{ $item['LatestGame'] }}</small>
                                                 @else
-                                                    <b class="text-success">Avaliable</b>
+                                                    <b class="text-success">Disponível</b>
                                                 @endif
                                             @endif
                                         </div>

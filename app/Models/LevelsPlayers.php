@@ -4,17 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Filters extends Model
+class LevelsPlayers extends Model
 {
 
-    public $table = 'filters';
+    public $table = 'levels_players';
 
     protected $fillable = [
-        'name','settings'
+        'map_key','size','game_mode','layout'
     ];
 
     protected $casts = [
-        'settings'=>'array'
+       # 'Layouts'=>'array'
     ];
 
     public $timestamps = false;

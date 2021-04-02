@@ -134,13 +134,19 @@ class AdminController extends Controller
     }
 
     public function confirmMap( Request $request ){
-        $Entity = SetLocker::where('id',$request->get('v'))->first();
 
-     #   dd($Entity);
+
+        $Entity = SetLocker::where('id',$request->get('v'))->where('status','waiting_confirmation')->first();
+        if(!$Entity){
+            $Entity = SetLocker::where('status','waiting_confirmation')->first();
+        }
+
+        #dd($Entity);
 
         $Level = Levels::select('Name','Slug')->where('Name',$request->get('winner'))->first();
 
-        SetLocker::where('id',$request->get('v'))->update([
+       # dd(SetLocker::where('id',$request->get('v')));
+        SetLocker::where('id',$Entity->id)->update([
             'winner' => $request->get('winner'),
             'status'=>'complete'
         ]);

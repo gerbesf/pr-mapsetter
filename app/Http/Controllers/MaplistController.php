@@ -27,7 +27,7 @@ class MaplistController extends Controller
 
         $Filters = Filters::get();
         #$Maps = Levels::whereJsonContains('Layouts', ['Key' => 'gpm_skirmish','Value'=> 16]) ->get();
-        $Maps = Levels::where('Status','online')->get();
+        $Maps = Levels::where('Status','online')->orderBy('size','asc')->get();
 
         return view('admin.maplist',[
             'menu'=>'actions',

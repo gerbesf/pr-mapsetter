@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ServerHistory extends Migration
+class LevelsPlayers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class ServerHistory extends Migration
      */
     public function up()
     {
-        Schema::create('server_history', function (Blueprint $table) {
+        Schema::create('levels_players', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('map_key');
-            $table->string('map_mode');
-            $table->string('map_size');
-            $table->dateTime('timestamp');
+            $table->string('map_key');      // map
+            $table->string('size');         // player_size
+            $table->string('game_mode');    // ins, cq
         });
     }
 
@@ -30,6 +28,6 @@ class ServerHistory extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('server_history');
+        Schema::dropIfExists('levels_players');
     }
 }
