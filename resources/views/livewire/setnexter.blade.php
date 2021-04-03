@@ -15,7 +15,7 @@
             <div class="card-body" style="font-size: 15px">
 
                     <div class=" rounded p-2 py-3">
-                        <div class="rounded px-2 text-uppercase text-muted border-bottom">Layout</div>
+                        <div class="rounded px-2 text-uppercase text-muted ">Layout</div>
                         <div class="row pb-0 m-2">
                             <div class="col-md-2">
                                 <label class="form-check pb-0 mb-0" wire:click="setMode('Aas')">
@@ -51,7 +51,7 @@
 
 
                         @if( in_array($gamemode,['Aas','Skirmish','Cnc']))
-                            <div class="rounded px-2 text-uppercase text-muted border-bottom">Mods</div>
+                            <div class="rounded px-2 text-uppercase text-muted ">Mods</div>
                             <div class="row pb-0 m-2">
                                 <div class="col-md-2">
                                     <label class="form-check pb-0 mb-0" wire:click="setMapMode('All')">
@@ -104,7 +104,7 @@
 
                                  </div>
                                  <div class="col-md-6">--}}
-                            <div class="rounded px-2 text-uppercase text-muted border-bottom">Players</div>
+                            <div class="rounded px-2 text-uppercase text-muted ">Players</div>
 
                             <div class="row pb-0 m-2">
 
