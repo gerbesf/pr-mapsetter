@@ -14,6 +14,7 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "ixudra/curl": "^6.21",
         "laravel/framework": "^8.12",
+        "laravel/horizon": "^5.7",
         "laravel/tinker": "^2.5",
         "livewire/livewire": "^2.3",
         "woeler/phpdiscord": "^2.0"
@@ -53,6 +54,7 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan horizon:publish --ansi",
             "@php artisan package:discover --ansi"
         ],
         "post-root-package-install": [

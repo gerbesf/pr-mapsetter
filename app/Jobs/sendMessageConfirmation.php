@@ -21,8 +21,11 @@ class sendMessageConfirmation implements ShouldQueue
 
     public $Entity;
     public $Level;
+    public $image;
     public $winner;
     public $nickname;
+
+    public $tries = 5;
 
     /**
      * Create a new job instance.

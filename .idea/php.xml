@@ -111,6 +111,7 @@
       <path value="$PROJECT_DIR$/vendor/ixudra/curl" />
       <path value="$PROJECT_DIR$/vendor/livewire/livewire" />
       <path value="$PROJECT_DIR$/vendor/woeler/phpdiscord" />
+      <path value="$PROJECT_DIR$/vendor/laravel/horizon" />
     </include_path>
   </component>
   <component name="PhpUnit">

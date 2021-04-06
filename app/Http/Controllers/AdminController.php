@@ -146,7 +146,7 @@ class AdminController extends Controller
 
         $Level = Levels::select('Name','Slug')->where('Name',$request->get('winner'))->first();
 
-        dispatch_now( new sendMessageConfirmation( $request->get('v'), $request->get('winner')));
+        dispatch( new sendMessageConfirmation( $request->get('v'), $request->get('winner')));
 
        # dd(SetLocker::where('id',$request->get('v')));
         SetLocker::where('id',$Entity->id)->update([
