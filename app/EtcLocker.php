@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Jobs\sendMessageExpirado;
 use App\Models\SetLocker;
 use Carbon\Carbon;
 use Woeler\DiscordPhp\Message\DiscordEmbedMessage;
@@ -20,7 +21,9 @@ class EtcLocker {
 
     public function discordAbandouVote( $Lock ){
 
-        $message = (new DiscordEmbedMessage())
+        dispatch( new sendMessageExpirado( $Lock));
+
+      /*  $message = (new DiscordEmbedMessage())
             ->setContent('Sessão expirada')
             ->setAvatar(env('BOT_AVATAR'))
             ->setUsername(env('BOT_NAME') )
@@ -34,7 +37,7 @@ class EtcLocker {
             $i++;
         }
         $webhook = new DiscordWebhook( env('DSC_MAP') );
-        $webhook->send($message);
+        $webhook->send($message);*/
 
     }
 

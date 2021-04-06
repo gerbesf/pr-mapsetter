@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\EtcLocker;
+use App\Jobs\sendMessageVotacao;
 use App\Models\Filters;
 use App\Models\Levels;
 use App\Models\LevelsPlayers;
@@ -83,6 +84,7 @@ class Setnexter extends Component
                 ]);
                 $EtcLocker = new EtcLocker();
                 $EtcLocker->discordAbandouVote($userActive);
+                return redirect('/');
             }
         }
         $lockerx = SetLocker::whereIn('status',['locked','waiting_confirmation'])->where('user_id','=',session()->get('admin_id'))->first();
@@ -212,47 +214,14 @@ class Setnexter extends Component
         ]);
 
         $text_votado = implode(' - ',$votado);
-        $nick = $Entity->user->nickname;
+        $nickname = $Entity->user->nickname;
 
+        dispatch( new sendMessageVotacao( $this->gamemode ,$this->gamemap ,$this->players_size,$this->historyRotation,$text_votado, $nickname));
 
         /*
          *   $this->gamemode = $mode;
         $this->gamemap = 'All';
          */
-        $message = (new DiscordEmbedMessage())
-            ->setContent('**'.ucfirst($nick).'** está realizando um votemap **'.$this->gamemode.'**')
-            ->setAvatar(env('BOT_AVATAR'))
-            ->setUsername(env('BOT_NAME') )
-            ->setTitle($text_votado)
-         #   ->setDescription( $text_votado)
-            ->setColor( 15844367);
-
-
-
-        if(count($this->historyRotation)==2){
-            $message->addField('Tentativa anterior', implode(' - ',$this->historyRotation[0]));
-        }
-        if(count($this->historyRotation)>=3){
-            $copy = ($this->historyRotation);
-            unset($copy[ count($copy) -1 ]);
-            $i=1;
-            foreach($copy as $line){
-                $message->addField('Tentativa #'.$i, implode(' - ',$line));
-                $i++;
-            }
-        }
-
-        $sizeDesc = strtolower(str_replace('_',' até ' ,$this->players_size));
-
-        if($this->gamemap){
-            $message->addField('Config ', '**'.$this->gamemode.'** | '. $this->gamemap. " | __".$sizeDesc.'__');
-        }else{
-            $message->addField('Config ', '**'.$this->gamemode."** | __".$sizeDesc.'__');
-        }
-
-        #dd($message,$sizeDesc);
-        $webhook = new DiscordWebhook( env('DSC_MAP') );
-        $webhook->send($message);
 
         return redirect('/confirmation?v='.$Entity->id);   // logout
 
@@ -285,7 +254,6 @@ class Setnexter extends Component
         #dd($this->mapsize);
 
         if($this->players_size){
-
 
             if( in_array($this->gamemode,['Skirmish','Cnc','Vehicle'])){
                 $avaliable_maps = Levels::where($this->gamemode,true)->get()->toArray();

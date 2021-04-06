@@ -6,6 +6,7 @@ use App\Http\Controllers\Helpers\Admins;
 use App\Http\Controllers\Helpers\AdminPages;
 use App\Http\Controllers\Helpers\Discord;
 use App\Http\Controllers\Helpers\Prspy;
+use App\Jobs\sendMessageConfirmation;
 use App\Models\Levels;
 use App\Models\ServerHistory;
 use App\Models\SetLocker;
@@ -136,7 +137,7 @@ class AdminController extends Controller
     public function confirmMap( Request $request ){
 
 
-        $Entity = SetLocker::where('id',$request->get('v'))->where('status','waiting_confirmation')->first();
+        $Entity = SetLocker::where('id',$request->get('v'))->first();
         if(!$Entity){
             $Entity = SetLocker::where('status','waiting_confirmation')->first();
         }
@@ -145,25 +146,15 @@ class AdminController extends Controller
 
         $Level = Levels::select('Name','Slug')->where('Name',$request->get('winner'))->first();
 
+        dispatch_now( new sendMessageConfirmation( $request->get('v'), $request->get('winner')));
+
        # dd(SetLocker::where('id',$request->get('v')));
         SetLocker::where('id',$Entity->id)->update([
             'winner' => $request->get('winner'),
             'status'=>'complete'
         ]);
 
-        $nick = $Entity->user->nickname;
-        $message = (new DiscordEmbedMessage())
-            #->setContent()
-            ->setAvatar(env('BOT_AVATAR'))
-            ->setUsername(env('BOT_NAME') )
-            ->setImage('https://www.realitymod.com/mapgallery/images/maps/'.\App\Helper::getImageKeyName( $Level->Slug ).'/banner.jpg')
-            ->setTitle($request->get('winner'))
-               ->setDescription( '**'.ucfirst($nick).'** confirmou o votemap!')
-            ->setColor( 3066993);
-
-        $webhook = new DiscordWebhook( env('DSC_MAP') );
-        $webhook->send($message);
-
+    #    dd( $Entity, $Level, $request->get('winner') );
 
         return redirect('/');
     }
