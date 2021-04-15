@@ -41,7 +41,7 @@ class Setnexter extends Component
     public $run_filters = true;
 
     public $players_sizes = [];
-    public $players_size = '0_20';
+    public $players_size = '0_30';
 
     public $notIn = [];
 
@@ -159,6 +159,7 @@ class Setnexter extends Component
                     return $item;
                 }
             })->toArray());
+            #dd($items,$this->avaliable_maps);
             $limit = count($items)-1;
             $votemap_history = [];
             if($limit<=1){
